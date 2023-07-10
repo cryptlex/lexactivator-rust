@@ -84,10 +84,10 @@ pub enum PermissionFlags {
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the product data is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the product data is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
 
-pub fn set_product_data(product_data: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
     
     let status: i32;
     #[cfg(windows)]
@@ -103,7 +103,7 @@ pub fn set_product_data(product_data: String) -> Result<(), LexActivatorErrorCod
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -121,9 +121,9 @@ pub fn set_product_data(product_data: String) -> Result<(), LexActivatorErrorCod
 ///                        values: LA_SYSTEM, LA_USER, LA_IN_MEMORY
 /// # Returns
 ///
-/// Returns `Ok(())` if the data directory is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the data directory is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> Result<(), LexActivatorErrorCode> {
+pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_flags: c_uint = permission_flags as u32 as c_uint;
     #[cfg(windows)]
@@ -140,7 +140,7 @@ pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> 
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     } 
 }
 
@@ -155,9 +155,9 @@ pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> 
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the data directory is set successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the data directory is set successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -173,7 +173,7 @@ pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorErrorCode>
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -185,9 +185,9 @@ pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorErrorCode>
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the custom device fingerprint is set successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the custom device fingerprint is set successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -203,7 +203,7 @@ pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), L
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -215,9 +215,9 @@ pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), L
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the license key is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the license key is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
  
-pub fn set_license_key(license_key: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_license_key(license_key: String) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -233,7 +233,7 @@ pub fn set_license_key(license_key: String) -> Result<(), LexActivatorErrorCode>
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -246,9 +246,9 @@ pub fn set_license_key(license_key: String) -> Result<(), LexActivatorErrorCode>
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the license user credentials are set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the license user credentials are set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_license_user_credential(email: String, password: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_license_user_credential(email: String, password: String) -> Result<(), LexActivatorError> {
     
     let status: i32;
     #[cfg(windows)]
@@ -266,7 +266,7 @@ pub fn set_license_user_credential(email: String, password: String) -> Result<()
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -284,15 +284,15 @@ pub fn set_license_user_credential(email: String, password: String) -> Result<()
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the license callback is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the license callback is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorErrorCode> {
+pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorError> {
     let status: i32;
     status = unsafe { SetLicenseCallback(callback) };
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -304,15 +304,15 @@ pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorEr
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the activation lease duration is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the activation lease duration is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_activation_lease_duration(lease_duration: u32) -> Result<(), LexActivatorErrorCode> {
+pub fn set_activation_lease_duration(lease_duration: u32) -> Result<(), LexActivatorError> {
     let c_lease_duration: c_uint = lease_duration as c_uint;
     let status = unsafe { SetActivationLeaseDuration(c_lease_duration) };
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -325,9 +325,9 @@ pub fn set_activation_lease_duration(lease_duration: u32) -> Result<(), LexActiv
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActivatorErrorCode>  {
+pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActivatorError>  {
     let status: i32;
     #[cfg(windows)]
     {
@@ -344,7 +344,7 @@ pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActi
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -357,9 +357,9 @@ pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActi
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the trial activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the trial activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -376,7 +376,7 @@ pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), L
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -388,9 +388,9 @@ pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), L
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the release version is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the release version is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_version(version: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_release_version(version: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -405,7 +405,7 @@ pub fn set_release_version(version: String) -> Result<(), LexActivatorErrorCode>
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -417,15 +417,15 @@ pub fn set_release_version(version: String) -> Result<(), LexActivatorErrorCode>
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the release published date is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the release published date is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_published_date(release_published_date: u32) -> Result<(), LexActivatorErrorCode>{
+pub fn set_release_published_date(release_published_date: u32) -> Result<(), LexActivatorError>{
     let c_release_published_date: c_uint = release_published_date as c_uint;
     let status = unsafe { SetReleasePublishedDate(c_release_published_date) };
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -437,9 +437,9 @@ pub fn set_release_published_date(release_published_date: u32) -> Result<(), Lex
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the release platform is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the release platform is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_platform(platform: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_release_platform(platform: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -454,7 +454,7 @@ pub fn set_release_platform(platform: String) -> Result<(), LexActivatorErrorCod
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -466,9 +466,9 @@ pub fn set_release_platform(platform: String) -> Result<(), LexActivatorErrorCod
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the release channel is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the release channel is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_channel(channel: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_release_channel(channel: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -483,7 +483,7 @@ pub fn set_release_channel(channel: String) -> Result<(), LexActivatorErrorCode>
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -496,9 +496,9 @@ pub fn set_release_channel(channel: String) -> Result<(), LexActivatorErrorCode>
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the offline activation request meter attribute uses are set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the offline activation request meter attribute uses are set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i32) -> Result<(), LexActivatorErrorCode>{
+pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i32) -> Result<(), LexActivatorError>{
     let status: i32;
     let c_uses: c_uint = uses as c_uint;
     #[cfg(windows)]
@@ -514,7 +514,7 @@ pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -526,9 +526,9 @@ pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the network proxy is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the network proxy is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -543,7 +543,7 @@ pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorErrorCode> {
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -555,9 +555,9 @@ pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the Cryptlex host is set successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the Cryptlex host is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorErrorCode> {
+pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -572,13 +572,13 @@ pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorErrorCode> {
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
 // ------------------- Getter Functions --------------------
 
-pub fn get_product_metadata(key: String) -> Result<String, LexActivatorErrorCode> {
+pub fn get_product_metadata(key: String) -> Result<String, LexActivatorError> {
     
     let status: i32;
     const LENGTH: usize = 256;
@@ -600,7 +600,7 @@ pub fn get_product_metadata(key: String) -> Result<String, LexActivatorErrorCode
     if status == 0 {
         Ok(product_metadata_value)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -608,9 +608,9 @@ pub fn get_product_metadata(key: String) -> Result<String, LexActivatorErrorCode
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_product_version_name() -> Result<String, LexActivatorErrorCode> {
+pub fn get_product_version_name() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256;
     let product_version_name: String;
@@ -629,7 +629,7 @@ pub fn get_product_version_name() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(product_version_name)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -637,9 +637,9 @@ pub fn get_product_version_name() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the display name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the display name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_product_version_display_name() -> Result<String, LexActivatorErrorCode> {
+pub fn get_product_version_display_name() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let product_version_display_name: String;
@@ -658,7 +658,7 @@ pub fn get_product_version_display_name() -> Result<String, LexActivatorErrorCod
     if status == 0 {
         Ok(product_version_display_name)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -670,9 +670,9 @@ pub fn get_product_version_display_name() -> Result<String, LexActivatorErrorCod
 ///
 /// # Returns
 ///
-/// Returns `Ok(ProductVersionFeatureFlag)` with the feature flag information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(ProductVersionFeatureFlag)` with the feature flag information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFeatureFlag, LexActivatorErrorCode> {
+pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFeatureFlag, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let feature_name: String = name.clone();
@@ -700,7 +700,7 @@ pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFe
     if status == 0 {
         Ok(product_version_feature_flag)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -712,9 +712,9 @@ pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFe
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_metadata(key: String) -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_metadata(key: String) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let license_metadata: String;
@@ -735,7 +735,7 @@ pub fn get_license_metadata(key: String) -> Result<String, LexActivatorErrorCode
     if status == 0 {
         Ok(license_metadata)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -747,9 +747,9 @@ pub fn get_license_metadata(key: String) -> Result<String, LexActivatorErrorCode
 ///
 /// # Returns
 ///
-/// Returns `Ok(LicenseMeterAttribute)` with the meter attribute information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LicenseMeterAttribute)` with the meter attribute information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute, LexActivatorErrorCode> {
+pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute, LexActivatorError> {
     let status: i32;
     let meter_attribute_name: String = name.clone();
     let mut c_allowed_uses: c_uint = 0;
@@ -774,7 +774,7 @@ pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute,
     if status == 0 {
         Ok(meter_attribute)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -782,9 +782,9 @@ pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute,
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the license key if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the license key if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_key() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_key() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let license_key: String;
@@ -803,7 +803,7 @@ pub fn get_license_key() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(license_key)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -811,15 +811,15 @@ pub fn get_license_key() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the number of allowed activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the number of allowed activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_allowed_activations() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_license_allowed_activations() -> Result<u32, LexActivatorError> {
     let mut allowed_activations: c_uint = 0;
     let status = unsafe { GetLicenseAllowedActivations(&mut allowed_activations) };
     if status == 0 {
         Ok(allowed_activations)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -827,15 +827,15 @@ pub fn get_license_allowed_activations() -> Result<u32, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the total number of activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the total number of activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_total_activations() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_license_total_activations() -> Result<u32, LexActivatorError> {
     let mut total_activations: c_uint = 0;
     let status = unsafe { GetLicenseTotalActivations(&mut total_activations) };
     if status == 0 {
         Ok(total_activations)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -843,15 +843,15 @@ pub fn get_license_total_activations() -> Result<u32, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the expiry date (in seconds since Unix epoch) if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the expiry date (in seconds since Unix epoch) if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_expiry_date() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_license_expiry_date() -> Result<u32, LexActivatorError> {
     let mut expiry_date: c_uint = 0;
     let status = unsafe { GetLicenseExpiryDate(&mut expiry_date) };
     if status == 0 {
         Ok(expiry_date)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -859,15 +859,15 @@ pub fn get_license_expiry_date() -> Result<u32, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the maintenance expiry date (in seconds since Unix epoch) if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the maintenance expiry date (in seconds since Unix epoch) if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_maintenance_expiry_date() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_license_maintenance_expiry_date() -> Result<u32, LexActivatorError> {
     let mut expiry_date: c_uint = 0;
     let status = unsafe { GetLicenseMaintenanceExpiryDate(&mut expiry_date) };
     if status == 0 {
         Ok(expiry_date)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -875,9 +875,9 @@ pub fn get_license_maintenance_expiry_date() -> Result<u32, LexActivatorErrorCod
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the maximum allowed release version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the maximum allowed release version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_max_allowed_release_version() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_max_allowed_release_version() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let max_allowed_release_version: String;
@@ -896,7 +896,7 @@ pub fn get_license_max_allowed_release_version() -> Result<String, LexActivatorE
     if status == 0 {
         Ok(max_allowed_release_version)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -904,9 +904,9 @@ pub fn get_license_max_allowed_release_version() -> Result<String, LexActivatorE
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the user's email if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the user's email if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_user_email() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_user_email() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let user_email: String;
@@ -925,7 +925,7 @@ pub fn get_license_user_email() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(user_email)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -933,9 +933,9 @@ pub fn get_license_user_email() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the user's name if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the user's name if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_user_name() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_user_name() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let user_name: String;
@@ -954,7 +954,7 @@ pub fn get_license_user_name() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(user_name)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -962,9 +962,9 @@ pub fn get_license_user_name() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the user's company if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the user's company if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_user_company() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_user_company() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let user_company: String;
@@ -983,7 +983,7 @@ pub fn get_license_user_company() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(user_company)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -995,9 +995,9 @@ pub fn get_license_user_company() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_user_metadata(key: String) -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_user_metadata(key: String) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let user_metadata: String;
@@ -1018,7 +1018,7 @@ pub fn get_license_user_metadata(key: String) -> Result<String, LexActivatorErro
     if status == 0 {
         Ok(user_metadata)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1026,9 +1026,9 @@ pub fn get_license_user_metadata(key: String) -> Result<String, LexActivatorErro
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the organization name if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the organization name if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_organization_name() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_organization_name() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let organization_name: String;
@@ -1047,7 +1047,7 @@ pub fn get_license_organization_name() -> Result<String, LexActivatorErrorCode> 
     if status == 0 {
         Ok(organization_name)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1055,9 +1055,9 @@ pub fn get_license_organization_name() -> Result<String, LexActivatorErrorCode> 
 ///
 /// # Returns
 ///
-/// Returns `Ok(OrganizationAddress)` with the organization address if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(OrganizationAddress)` with the organization address if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActivatorErrorCode> {
+pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let org_address_json: String;
@@ -1077,7 +1077,7 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
     if status == 0 {
         Ok(org_address)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 
 }
@@ -1086,9 +1086,9 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the license type if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the license type if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_type() -> Result<String, LexActivatorErrorCode> {
+pub fn get_license_type() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let license_type: String;
@@ -1107,7 +1107,7 @@ pub fn get_license_type() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(license_type)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1119,9 +1119,9 @@ pub fn get_license_type() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_activation_metadata(key: String) -> Result<String, LexActivatorErrorCode> {
+pub fn get_activation_metadata(key: String) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let activation_metadata: String;
@@ -1142,7 +1142,7 @@ pub fn get_activation_metadata(key: String) -> Result<String, LexActivatorErrorC
     if status == 0 {
         Ok(activation_metadata)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1150,9 +1150,9 @@ pub fn get_activation_metadata(key: String) -> Result<String, LexActivatorErrorC
 ///
 /// # Returns
 ///
-/// Returns `Ok(ActivationMode)` with the initial and current activation mode if they are retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(ActivationMode)` with the initial and current activation mode if they are retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_activation_mode() -> Result<ActivationMode, LexActivatorErrorCode> {
+pub fn get_activation_mode() -> Result<ActivationMode, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let initial_activation_mode: String;
@@ -1180,7 +1180,7 @@ pub fn get_activation_mode() -> Result<ActivationMode, LexActivatorErrorCode> {
     if status == 0 {
         Ok(activation_mode)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1192,9 +1192,9 @@ pub fn get_activation_mode() -> Result<ActivationMode, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the number of uses of the metered attribute if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the number of uses of the metered attribute if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_activation_meter_attribute_uses(name: String) -> Result<u32, LexActivatorErrorCode> {
+pub fn get_activation_meter_attribute_uses(name: String) -> Result<u32, LexActivatorError> {
     let status: i32;
     let mut count: c_uint = 0;
     #[cfg(windows)]
@@ -1210,7 +1210,7 @@ pub fn get_activation_meter_attribute_uses(name: String) -> Result<u32, LexActiv
     if status == 0 {
         Ok(count)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1218,16 +1218,16 @@ pub fn get_activation_meter_attribute_uses(name: String) -> Result<u32, LexActiv
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the expiry date of the server sync grace period if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the expiry date of the server sync grace period if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorError> {
     let status: i32;
     let mut expiry_date: c_uint = 0;
     status = unsafe { GetServerSyncGracePeriodExpiryDate(&mut expiry_date) };
     if status == 0 {
         Ok(expiry_date)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1239,9 +1239,9 @@ pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorErr
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_trial_activation_metadata(key: String) -> Result<String, LexActivatorErrorCode> {
+pub fn get_trial_activation_metadata(key: String) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let trial_activation_metadata: String;
@@ -1262,7 +1262,7 @@ pub fn get_trial_activation_metadata(key: String) -> Result<String, LexActivator
     if status == 0 {
         Ok(trial_activation_metadata)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1270,16 +1270,16 @@ pub fn get_trial_activation_metadata(key: String) -> Result<String, LexActivator
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the expiry date of the trial activation if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the expiry date of the trial activation if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_trial_expiry_date() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_trial_expiry_date() -> Result<u32, LexActivatorError> {
     let status: i32;
     let mut trial_expiry_date: c_uint = 0;
     status = unsafe { GetTrialExpiryDate(&mut trial_expiry_date) };
     if status == 0 {
         Ok(trial_expiry_date)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1287,9 +1287,9 @@ pub fn get_trial_expiry_date() -> Result<u32, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the trial ID if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the trial ID if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_trial_id() -> Result<String, LexActivatorErrorCode> {
+pub fn get_trial_id() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let trial_id: String;
@@ -1308,7 +1308,7 @@ pub fn get_trial_id() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(trial_id)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1316,16 +1316,16 @@ pub fn get_trial_id() -> Result<String, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the local expiry date of the trial activation if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(u32)` with the local expiry date of the trial activation if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_local_trial_expiry_date() -> Result<u32, LexActivatorErrorCode> {
+pub fn get_local_trial_expiry_date() -> Result<u32, LexActivatorError> {
     let status: i32;
     let mut trial_expiry_date: c_uint = 0;
     status = unsafe { GetLocalTrialExpiryDate(&mut trial_expiry_date) };
     if status == 0 {
         Ok(trial_expiry_date)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1333,9 +1333,9 @@ pub fn get_local_trial_expiry_date() -> Result<u32, LexActivatorErrorCode> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(String)` with the library version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(String)` with the library version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_library_version() -> Result<String, LexActivatorErrorCode> {
+pub fn get_library_version() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let library_version: String;
@@ -1354,7 +1354,7 @@ pub fn get_library_version() -> Result<String, LexActivatorErrorCode> {
     if status == 0 {
         Ok(library_version)
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1366,16 +1366,16 @@ pub fn get_library_version() -> Result<String, LexActivatorErrorCode> {
 /// 
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the license activation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license activation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
   
-pub fn activate_license() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn activate_license() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { ActivateLicense() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        20 => Ok(LexActivatorStatusCode::LA_EXPIRED),
-        21 => Ok(LexActivatorStatusCode::LA_SUSPENDED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        20 => Ok(LexActivatorStatus::LA_EXPIRED),
+        21 => Ok(LexActivatorStatus::LA_SUSPENDED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1387,9 +1387,9 @@ pub fn activate_license() -> Result<LexActivatorStatusCode, LexActivatorErrorCod
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the license activation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the license activation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1402,11 +1402,11 @@ pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatusC
         status = unsafe { ActivateLicenseOffline(c_file_path.as_ptr()) };
     }
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        20 => Ok(LexActivatorStatusCode::LA_EXPIRED),
-        21 => Ok(LexActivatorStatusCode::LA_SUSPENDED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        20 => Ok(LexActivatorStatus::LA_EXPIRED),
+        21 => Ok(LexActivatorStatus::LA_SUSPENDED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1418,9 +1418,9 @@ pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatusC
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the offline activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the offline activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_activation_request(file_path: String) -> Result<(), LexActivatorErrorCode> {
+pub fn generate_offline_activation_request(file_path: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1435,7 +1435,7 @@ pub fn generate_offline_activation_request(file_path: String) -> Result<(), LexA
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1445,14 +1445,14 @@ pub fn generate_offline_activation_request(file_path: String) -> Result<(), LexA
 ///
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the license deactivation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license deactivation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn deactivate_license() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn deactivate_license() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { DeactivateLicense() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1464,9 +1464,9 @@ pub fn deactivate_license() -> Result<LexActivatorStatusCode, LexActivatorErrorC
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the offline deactivation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the offline deactivation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_deactivation_request(file_path: String) -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn generate_offline_deactivation_request(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1479,9 +1479,9 @@ pub fn generate_offline_deactivation_request(file_path: String) -> Result<LexAct
         status = unsafe { GenerateOfflineDeactivationRequest(c_file_path.as_ptr()) };
     }
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1495,17 +1495,17 @@ pub fn generate_offline_deactivation_request(file_path: String) -> Result<LexAct
 /// 
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the license is genuine. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license is genuine. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn is_license_genuine() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn is_license_genuine() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { IsLicenseGenuine() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        20 => Ok(LexActivatorStatusCode::LA_EXPIRED),
-        21 => Ok(LexActivatorStatusCode::LA_SUSPENDED),
-        22 => Ok(LexActivatorStatusCode::LA_GRACE_PERIOD_OVER),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        20 => Ok(LexActivatorStatus::LA_EXPIRED),
+        21 => Ok(LexActivatorStatus::LA_SUSPENDED),
+        22 => Ok(LexActivatorStatus::LA_GRACE_PERIOD_OVER),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1517,17 +1517,17 @@ pub fn is_license_genuine() -> Result<LexActivatorStatusCode, LexActivatorErrorC
 /// 
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the license is genuine. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license is genuine. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn is_license_valid() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn is_license_valid() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { IsLicenseValid() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        20 => Ok(LexActivatorStatusCode::LA_EXPIRED),
-        21 => Ok(LexActivatorStatusCode::LA_SUSPENDED),
-        22 => Ok(LexActivatorStatusCode::LA_GRACE_PERIOD_OVER),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        20 => Ok(LexActivatorStatus::LA_EXPIRED),
+        21 => Ok(LexActivatorStatus::LA_SUSPENDED),
+        22 => Ok(LexActivatorStatus::LA_GRACE_PERIOD_OVER),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1537,15 +1537,15 @@ pub fn is_license_valid() -> Result<LexActivatorStatusCode, LexActivatorErrorCod
 ///
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_trial() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn activate_trial() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { ActivateTrial() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        25 => Ok(LexActivatorStatusCode::LA_TRIAL_EXPIRED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        25 => Ok(LexActivatorStatus::LA_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1557,9 +1557,9 @@ pub fn activate_trial() -> Result<LexActivatorStatusCode, LexActivatorErrorCode>
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1572,10 +1572,10 @@ pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatusCod
         status = unsafe { ActivateTrialOffline(c_file_path.as_ptr()) };
     }
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        25 => Ok(LexActivatorStatusCode::LA_TRIAL_EXPIRED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        25 => Ok(LexActivatorStatus::LA_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1587,9 +1587,9 @@ pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatusCod
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the offline trial activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the offline trial activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_trial_activation_request(file_path: String) -> Result<(), LexActivatorErrorCode> {
+pub fn generate_offline_trial_activation_request(file_path: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1604,7 +1604,7 @@ pub fn generate_offline_trial_activation_request(file_path: String) -> Result<()
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1614,15 +1614,15 @@ pub fn generate_offline_trial_activation_request(file_path: String) -> Result<()
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if trial has started and is genuine. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if trial has started and is genuine. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn is_trial_genuine() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn is_trial_genuine() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { IsTrialGenuine() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        25 => Ok(LexActivatorStatusCode::LA_TRIAL_EXPIRED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        25 => Ok(LexActivatorStatus::LA_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1638,16 +1638,16 @@ pub fn is_trial_genuine() -> Result<LexActivatorStatusCode, LexActivatorErrorCod
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_local_trial(trial_length: u32) -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn activate_local_trial(trial_length: u32) -> Result<LexActivatorStatus, LexActivatorError> {
     let c_trial_length: c_uint = trial_length as c_uint;
     let status = unsafe { ActivateLocalTrial(c_trial_length) };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        26 => Ok(LexActivatorStatusCode::LA_LOCAL_TRIAL_EXPIRED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        26 => Ok(LexActivatorStatus::LA_LOCAL_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1659,15 +1659,15 @@ pub fn activate_local_trial(trial_length: u32) -> Result<LexActivatorStatusCode,
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if trial is genuine. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if trial is genuine. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn is_local_trial_genuine() -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn is_local_trial_genuine() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { IsLocalTrialGenuine() };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        26 => Ok(LexActivatorStatusCode::LA_LOCAL_TRIAL_EXPIRED),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        26 => Ok(LexActivatorStatus::LA_LOCAL_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1683,15 +1683,15 @@ pub fn is_local_trial_genuine() -> Result<LexActivatorStatusCode, LexActivatorEr
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the local trial was extended successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the local trial was extended successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn extend_local_trial(trial_extension_length: u32) -> Result<LexActivatorStatusCode, LexActivatorErrorCode> {
+pub fn extend_local_trial(trial_extension_length: u32) -> Result<LexActivatorStatus, LexActivatorError> {
     let c_trial_extension_length: c_uint = trial_extension_length as c_uint;
     let status = unsafe { ExtendLocalTrial(c_trial_extension_length) };
     match status {
-        0 => Ok(LexActivatorStatusCode::LA_OK),
-        1 => Ok(LexActivatorStatusCode::LA_FAIL),
-        _ => Err(LexActivatorErrorCode::from(status)),
+        0 => Ok(LexActivatorStatus::LA_OK),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
     }
 }
 
@@ -1704,9 +1704,9 @@ pub fn extend_local_trial(trial_extension_length: u32) -> Result<LexActivatorSta
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the meter attribute uses was incremented successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was incremented successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -> Result<(), LexActivatorErrorCode> {
+pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_increment: c_uint = increment as c_uint;
     #[cfg(windows)]
@@ -1722,7 +1722,7 @@ pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1735,9 +1735,9 @@ pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the meter attribute uses was decremented successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was decremented successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -> Result<(), LexActivatorErrorCode> {
+pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_decrement: c_uint = decrement as c_uint;
     #[cfg(windows)]
@@ -1753,7 +1753,7 @@ pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1765,9 +1765,9 @@ pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(LexActivatorStatusCode)` with the status code `LexActivatorStatusCode::LA_OK` if the meter attribute uses was reset successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned. 
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was reset successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned. 
 
-pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActivatorErrorCode> {
+pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1782,7 +1782,7 @@ pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActi
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }
 
@@ -1794,13 +1794,13 @@ pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActi
 /// 
 /// # Returns
 /// 
-/// Returns `Ok(())` if the activation and trial data was reset successfully. If an error occurs, an `Err` containing the `LexActivatorErrorCode`is returned.
+/// Returns `Ok(())` if the activation and trial data was reset successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn reset() -> Result<(), LexActivatorErrorCode> {
+pub fn reset() -> Result<(), LexActivatorError> {
     let status = unsafe { Reset() };
     if status == 0 {
         Ok(())
     } else {
-        return Err(LexActivatorErrorCode::from(status));
+        return Err(LexActivatorError::from(status));
     }
 }

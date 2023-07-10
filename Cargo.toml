@@ -1,6 +1,6 @@
 [package]
-name = "LexActivator-rs"
-version = "0.1.0"
+name = "lexactivator_rs"
+version = "3.0.0"
 edition = "2021"
 description = "LexActivator SDK for Rust"
 license = "MIT"
