@@ -1,4 +1,4 @@
-name: Build rust package
+name: Build
 
 on:
   workflow_dispatch:
@@ -31,6 +31,10 @@ jobs:
           git commit -m "chore(package version): updated version" | exit 0
           git tag ${{ github.event.inputs.packageVersion }}
           git push & git push --tags
+
+      - name: Build
+        run: |
+          cargo build --verbose
           
       - name: Publish
         run: |
