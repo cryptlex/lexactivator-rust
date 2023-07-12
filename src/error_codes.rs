@@ -23,6 +23,7 @@ pub enum LexActivatorStatus {
 #[derive(PartialEq)]
 #[repr(i32)]
 pub enum LexActivatorError {
+    LA_FAIL = 1,
     LA_E_FILE_PATH = 40,
     LA_E_PRODUCT_FILE = 41,
     LA_E_PRODUCT_DATA = 42,
@@ -96,6 +97,7 @@ impl From<i32> for LexActivatorStatus {
 impl From<i32> for LexActivatorError {
     fn from(code: i32) -> Self {
         match code {
+            1 => LexActivatorError::LA_FAIL,
             40 => LexActivatorError::LA_E_FILE_PATH,
             41 => LexActivatorError::LA_E_PRODUCT_FILE,
             42 => LexActivatorError::LA_E_PRODUCT_DATA,
@@ -172,6 +174,7 @@ impl fmt::Display for LexActivatorStatus {
 impl fmt::Display for LexActivatorError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            LexActivatorError::LA_FAIL => write!(f, "{} Failure code.", LexActivatorError::LA_FAIL as i32),
             LexActivatorError::LA_E_FILE_PATH => write!(f, "{} Invalid file path.", LexActivatorError::LA_E_FILE_PATH as i32),
             LexActivatorError::LA_E_PRODUCT_FILE => write!(f, "{} Invalid or corrupted product file.", LexActivatorError::LA_E_PRODUCT_FILE as i32),
             LexActivatorError::LA_E_PRODUCT_DATA => write!(f, "{} Invalid product data.", LexActivatorError::LA_E_PRODUCT_DATA as i32),
