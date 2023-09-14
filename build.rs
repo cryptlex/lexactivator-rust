@@ -1,6 +1,6 @@
 use std::env;
 use std::path::PathBuf;
-
+use std::process::Command;
 /// Since the build.rs is supposed to run on the host machine, cross-compiling this package on a single host machine will lead to unexpected results.
 
 /// Targets = x86_64-apple-darwin, aarch64-apple-darwin, aarch64-unknown-linux-gnu, x86_64-pc-windows-msvc, x86_64-unknown-linux-gnu,
@@ -65,9 +65,21 @@ fn set_libs_to_link() {
     cfg_if::cfg_if! {
         if #[cfg(target_os="macos")] {
             println!("cargo:rustc-link-lib=dylib=c++");
-            // TODO Find correct directory for clang_rt.osx (using xcodebuild?)
-            println!("cargo:rustc-link-search=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.3/lib/darwin");
+            
+            // Find correct directory for clang_rt.osx (using clang search dirs)
+            let output = Command::new("sh")
+                .arg("-c")
+                .arg("clang --print-search-dirs | grep -E 'libraries' | cut -d'=' -f2")
+                .output()
+                .expect("LexActivator failed to find clang libraries. Please ensure that clang is installed.");
+
+            let path = String::from_utf8_lossy(&output.stdout);
+            let clang_libs_path = format!("{}/lib/darwin/", path.trim());
+            println!("cargo:rustc-link-search=native={}", clang_libs_path);
+            
+            // Link clang_rt.osx
             println!("cargo:rustc-link-lib=static=clang_rt.osx");
+            
             println!("cargo:rustc-link-lib=framework=Security");
             println!("cargo:rustc-link-lib=framework=CoreFoundation");
             println!("cargo:rustc-link-lib=framework=SystemConfiguration");
