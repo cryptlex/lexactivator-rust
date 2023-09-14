@@ -1,10 +1,10 @@
 use std::env;
 use std::path::PathBuf;
 
+/// Since the build.rs is supposed to run on the host machine, cross-compiling this package on a single host machine will lead to unexpected results.
+
 /// Targets = x86_64-apple-darwin, aarch64-apple-darwin, aarch64-unknown-linux-gnu, x86_64-pc-windows-msvc, x86_64-unknown-linux-gnu,
 /// x86_64-unknown-linux-musl, aarch64-unknown-linux-musl
-/// <arch><sub>-<vendor>-<sys>-<abi>
-/// https://crates.io/crates/pkg-config might be used for Static libraries
 fn set_lib_search_dir() -> () {
     let cargo_manifest_dir: String = env::var("CARGO_MANIFEST_DIR").unwrap();
 
