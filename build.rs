@@ -57,8 +57,8 @@ fn set_lib_search_dir() -> () {
         }
     }
 
-    // Add linkage instruction to static library
-    println!("cargo:rustc-link-lib=static=LexActivator");
+    // Add linkage instruction to LexActivator library
+    println!("cargo:rustc-link-lib=LexActivator");
 }
 
 fn set_libs_to_link() {
