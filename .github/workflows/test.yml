@@ -7,11 +7,8 @@ on:
         - develop
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+  download-libs:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -20,6 +17,17 @@ jobs:
     - name: Download static libraries
       run: |
         ./download-libs.sh
+
+  test:
+    needs: download-libs
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Set up Rust Stable
       uses: actions-rs/toolchain@v1
