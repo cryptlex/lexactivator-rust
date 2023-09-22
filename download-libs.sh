@@ -10,8 +10,11 @@ curl -O ${BASE_URL}/${VERSION}/${WINDOWS_FILE_NAME}
 unzip ${WINDOWS_FILE_NAME} -d ./tmp/windows
 # x64
 cp ./tmp/windows/libs/vc14/x64/LexActivator.dll ./libs/win32-x86_64/
+cp ./tmp/windows/libs/vc14/x64/LexActivator.lib ./libs/win32-x86_64/
+
 # x86
 cp ./tmp/windows/libs/vc14/x86/LexActivator.dll ./libs/win32-x86/
+cp ./tmp/windows/libs/vc14/x86/LexActivator.lib ./libs/win32-x86/
 
 mkdir -p tmp/macos
 MAC_FILE_NAME="LexActivator-Static-Mac.zip"
