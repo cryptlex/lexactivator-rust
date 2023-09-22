@@ -86,11 +86,12 @@ fn set_libs_to_link() {
         } else if #[cfg(target_os="linux")] {
             println!("cargo:rustc-link-lib=dylib=stdc++");
         } else if #[cfg(target_os="windows")] {
-            println!("cargo:rustc-link-lib=winhttp");
-            println!("cargo:rustc-link-lib=crypt32");
-            println!("cargo:rustc-link-lib=libcurl_MD");
-            println!("cargo:rustc-link-lib=ws2_32");
-            println!("cargo:rustc-link-lib=shell32");
+            // Static linking is not supported
+            // println!("cargo:rustc-link-lib=winhttp");
+            // println!("cargo:rustc-link-lib=crypt32");
+            // println!("cargo:rustc-link-lib=libcurl_MD");
+            // println!("cargo:rustc-link-lib=ws2_32");
+            // println!("cargo:rustc-link-lib=shell32");
         }
     }
 }
