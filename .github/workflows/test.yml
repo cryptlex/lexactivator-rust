@@ -17,6 +17,12 @@ jobs:
     - name: Download static libraries
       run: |
         ./download-libs.sh
+    
+    - name: Upload static libraries
+      uses: actions/upload-artifact@v3
+      with:
+          name: libs
+          path: libs/
 
   test:
     needs: download-libs
@@ -35,6 +41,11 @@ jobs:
         profile: minimal
         toolchain: stable
         components: rustfmt, clippy
+    
+    - name: Download static libraries
+      uses: actions/download-artifact@v3
+      with:
+        name: libs
     
     - name: Run Cargo Test
       uses: actions-rs/cargo@v1
