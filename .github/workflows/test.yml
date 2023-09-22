@@ -1,0 +1,54 @@
+name: Run tests
+
+on:
+    pull_request:
+        branches:
+        - main
+        - develop
+
+jobs:
+  download-libs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download static libraries
+      run: |
+        ./download-libs.sh
+    
+    - name: Upload static libraries
+      uses: actions/upload-artifact@v3
+      with:
+          name: libs
+          path: libs/
+
+  test:
+    needs: download-libs
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Rust Stable
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        components: rustfmt, clippy
+    
+    - name: Download static libraries
+      uses: actions/download-artifact@v3
+      with:
+        name: libs
+        path: libs/
+    
+    - name: Run Cargo Test
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
