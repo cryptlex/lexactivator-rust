@@ -24,7 +24,7 @@ fn main() {
     let mut result: Result<(), LexActivatorError> = lexactivator::set_product_data(product_data);
     println!("SetProductData: {:?}", result);
 
-    result = lexactivator::set_product_id(product_id, PermissionFlags::LaUser);
+    result = lexactivator::set_product_id(product_id, PermissionFlags::LA_USER);
     println!("SetProductId: {:?}", result);
 
     result = lexactivator::set_license_key(license_key);

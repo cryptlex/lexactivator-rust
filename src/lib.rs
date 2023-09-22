@@ -65,9 +65,9 @@ pub struct OrganizationAddress {
 
 #[repr(u32)]
 pub enum PermissionFlags {
-    LaUser = 1,
-    LaSystem = 2,
-    LaInMemory = 4,
+    LA_USER = 1,
+    LA_SYSTEM = 2,
+    LA_IN_MEMORY = 4,
 }
 
 // --------------- Setter functions ------------------------
