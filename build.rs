@@ -17,30 +17,30 @@ fn set_lib_search_dir() -> () {
     cfg_if::cfg_if! {
         if #[cfg(all(target_arch="x86_64", target_os="macos"))] {
             // Intel Macs
-            print_link_search_path (cargo_manifest_dir, &["libs", "darwin-x86-64"]);
+            print_link_search_path (cargo_manifest_dir, &["libs", "darwin-x86_64"]);
         } else if #[cfg(all(target_arch="aarch64", target_os="macos"))] {
             // Apple Silicon Macs
             print_link_search_path(cargo_manifest_dir, &["libs", "darwin-aarch64"]);
-        } else if #[cfg(all(target_arch="aarch64", target_os="linux"))] {
+        } else if #[cfg(all(target_arch="aarch64", target_os="linux", target_env="gnu"))] {
             // ARM64 Linux GNU
             print_link_search_path(cargo_manifest_dir, &["libs", "linux-aarch64"]);
         } else if #[cfg(all(target_arch="x86_64", target_os="linux", target_env="gnu"))] {
             // x86_64 Linux GNU
-            print_link_search_path(cargo_manifest_dir, &["libs", "linux-x86-64"]);
+            print_link_search_path(cargo_manifest_dir, &["libs", "linux-x86_64"]);
         } else if #[cfg(all(target_arch="x86", target_os="linux", target_env="gnu"))] {
             // x86 Linux GNU
             print_link_search_path(cargo_manifest_dir, &["libs", "linux-x86"]);
             // /libs/linux/gcc-6/i386
         } else if #[cfg(all(target_arch="x86_64", target_os="linux", target_env="musl"))] {
             // x86_64 Linux MUSL
-            print_link_search_path(cargo_manifest_dir, &["libs", "musl-x86-64"]);
+            print_link_search_path(cargo_manifest_dir, &["libs", "musl-x86_64"]);
         } else if #[cfg(all(target_arch="aarch64", target_os="linux", target_env="musl"))] {
             // ARM64 Linux MUSL
             print_link_search_path(cargo_manifest_dir, &["libs", "musl-aarch64"]);
         }  else if #[cfg(all(target_arch="x86_64", target_os="windows", target_env="msvc"))] {
             // x86_64 Windows
             // TODO find MSVC Version
-            print_link_search_path(cargo_manifest_dir, &["libs", "win32-x86-64"]);
+            print_link_search_path(cargo_manifest_dir, &["libs", "win32-x86_64"]);
         } else if #[cfg(all(target_arch="x86", target_os="windows", target_env="msvc"))] {
             // x86 Windows
             // TODO find MSVC Version
@@ -86,7 +86,8 @@ fn set_libs_to_link() {
         } else if #[cfg(target_os="linux")] {
             println!("cargo:rustc-link-lib=dylib=stdc++");
         } else if #[cfg(target_os="windows")] {
-            println!("cargo:rustc-link-lib=dylib=stdc++");
+            println!("cargo:rustc-link-lib=winhttp");
+            println!("cargo:rustc-link-lib=libcurl_MD");
         }
     }
 }
