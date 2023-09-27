@@ -49,5 +49,6 @@ jobs:
           cargo build --verbose
           
       - name: Publish
+        # --allow-dirty is set here as a workaround because changes cannot be committed to a protected branch
         run: |
-          cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }} --allow-dirty

@@ -3,6 +3,10 @@ name = "lexactivator"
 version = "3.0.0"
 edition = "2021"
 description = "LexActivator SDK for Rust"
+homepage = "https://cryptlex.com"
+repository = "https://github.com/cryptlex/lexactivator-rust"
+# TODO
+# documentation = "https://docs.cryptlex.com/node-locked-licenses/using-lexactivator-with-rust"
 license = "MIT"
 
 [dependencies]
