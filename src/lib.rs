@@ -1,13 +1,15 @@
 use std::ffi::*;
 use serde::Deserialize;
 
-pub use extern_functions::*;
-pub use error_codes::*;
-pub use string_utils::*;
+mod extern_functions;
+use extern_functions::*;
 
-pub mod extern_functions;
 pub mod error_codes;
-pub mod string_utils;
+pub use error_codes::*;
+
+mod string_utils;
+use string_utils::*;
+
 
 
 /// Represents a license meter attribute.
