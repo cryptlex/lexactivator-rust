@@ -8,6 +8,8 @@ repository = "https://github.com/cryptlex/lexactivator-rust"
 # TODO
 # documentation = "https://docs.cryptlex.com/node-locked-licenses/using-lexactivator-with-rust"
 license = "MIT"
+include = ["/libs/**/*.a", "/libs/**/*.lib", "/libs/**/*.dll"]
+
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
