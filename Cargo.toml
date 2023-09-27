@@ -8,8 +8,14 @@ repository = "https://github.com/cryptlex/lexactivator-rust"
 # TODO
 # documentation = "https://docs.cryptlex.com/node-locked-licenses/using-lexactivator-with-rust"
 license = "MIT"
-include = ["/libs/**/*.a", "/libs/**/*.lib", "/libs/**/*.dll"]
-
+include = [
+    "build.rs",
+    "/src",
+    "/examples",
+    "/libs/**/*.a",
+    "/libs/**/*.lib",
+    "/libs/**/*.dll",
+]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
@@ -19,5 +25,5 @@ serde_json = "1.0"
 cfg-if = "1.0.0"
 
 [[example]]
-name="license-activation"
-crate-type=["bin"]
+name = "license-activation"
+crate-type = ["bin"]
