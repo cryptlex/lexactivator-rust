@@ -841,6 +841,38 @@ pub fn get_license_total_activations() -> Result<u32, LexActivatorError> {
     }
 }
 
+/// Retrieves the number of allowed deactivations for the license.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the number of allowed deactivations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_allowed_deactivations() -> Result<u32, LexActivatorError> {
+    let mut allowed_deactivations: c_uint = 0;
+    let status = unsafe { GetLicenseAllowedDeactivations(&mut allowed_deactivations) };
+    if status == 0 {
+        Ok(allowed_deactivations)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the total number of deactivations for the license.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the total number of deactivations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_total_deactivations() -> Result<u32, LexActivatorError> {
+    let mut total_deactivations: c_uint = 0;
+    let status = unsafe { GetLicenseTotalDeactivations(&mut total_deactivations) };
+    if status == 0 {
+        Ok(total_deactivations)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the expiry date of the license.
 ///
 /// # Returns
