@@ -873,6 +873,38 @@ pub fn get_license_total_deactivations() -> Result<u32, LexActivatorError> {
     }
 }
 
+/// Retrieves the license creation date timestamp.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the license creation date timestamp if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_creation_date() -> Result<u32, LexActivatorError> {
+    let mut creation_date:c_uint = 0;
+    let status = unsafe { GetLicenseCreationDate(&mut creation_date) };
+    if status == 0 {
+        Ok(creation_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the license activation date timestamp.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the license activation date timestamp if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_activation_date() -> Result<u32, LexActivatorError> {
+    let mut activation_date:c_uint = 0;
+    let status = unsafe { GetLicenseActivationDate(&mut activation_date) };
+    if status == 0 {
+        Ok(activation_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the expiry date of the license.
 ///
 /// # Returns
