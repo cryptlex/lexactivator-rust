@@ -1274,6 +1274,35 @@ pub fn get_license_type() -> Result<String, LexActivatorError> {
     }
 }
 
+/// Retrieves the activation id.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the activation id if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_activation_id() -> Result<String, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let activation_id: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetActivationId(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        activation_id = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetActivationId(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        activation_id = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        Ok(activation_id)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the metadata value associated with the specified key for the activation.
 ///
 /// # Arguments
