@@ -89,6 +89,7 @@ extern "C" {
     // --------------- LexActivator Action Functions ---------------
 
     pub fn AuthenticateUser(email: cstrtype!(), password: cstrtype!()) -> c_int;
+    pub fn AuthenticateUserWithIdToken(idToken: cstrtype!()) -> c_int;
     pub fn ActivateLicense() -> c_int;
     pub fn ActivateLicenseOffline(filePath: cstrtype!()) -> c_int;
     pub fn GenerateOfflineActivationRequest(filePath: cstrtype!()) -> c_int;

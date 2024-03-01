@@ -1488,6 +1488,36 @@ pub fn authenticate_user(email: String, password: String) -> Result<(), LexActiv
         return Err(LexActivatorError::from(status));
     }
 }
+
+/// Authenticates the user via OIDC Id token.
+///
+/// # Arguments
+/// 
+/// * `id_token` - The id token obtained from the OIDC provider.
+/// 
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn authenticate_user_with_id_token(id_token: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_id_token = to_utf16(id_token);
+        status = unsafe { AuthenticateUserWithIdToken(c_id_token.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_id_token = string_to_cstring(id_token)?;
+        status = unsafe { AuthenticateUserWithIdToken(c_id_token.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Activates the license by contacting the Cryptlex servers. 
 /// 
 /// It validates the key and returns with encrypted and digitally signed token which it stores and uses to activate the application.

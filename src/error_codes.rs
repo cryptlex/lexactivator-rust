@@ -76,9 +76,11 @@ pub enum LexActivatorError {
     LA_E_TWO_FACTOR_AUTHENTICATION_CODE_INVALID = 89,
     LA_E_RATE_LIMIT = 90,
     LA_E_SERVER = 91,
-    LA_E_CLIENT = 92
     LA_E_CLIENT = 92,
     LA_E_LOGIN_TEMPORARILY_LOCKED = 100,
+    LA_E_AUTHENTICATION_ID_TOKEN_INVALID = 101,
+    LA_E_OIDC_SSO_NOT_ENABLED = 102,
+    LA_E_USERS_LIMIT_REACHED = 103,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -157,6 +159,9 @@ impl From<i32> for LexActivatorError {
             91 => LexActivatorError::LA_E_SERVER,
             92 => LexActivatorError::LA_E_CLIENT,
             100 => LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED,
+            101 => LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID,
+            102 => LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED,
+            103 => LexActivatorError::LA_E_USERS_LIMIT_REACHED,
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -238,6 +243,9 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_SERVER => write!(f, "{} Server error.", LexActivatorError::LA_E_SERVER as i32),
             LexActivatorError::LA_E_CLIENT => write!(f, "{} Client error.", LexActivatorError::LA_E_CLIENT as i32),
             LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED => write!(f, "{} The user account has been temporarily locked for 5 mins due to 5 failed attempts.", LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED as i32),
+            LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID => write!(f, "{} Invalid authentication ID token.", LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID as i32),
+            LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED => write!(f, "{} OIDC SSO is not enabled.", LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED as i32),
+            LexActivatorError::LA_E_USERS_LIMIT_REACHED => write!(f, "{} The allowed users for this account has reached its limit.", LexActivatorError::LA_E_USERS_LIMIT_REACHED as i32),
         }
     }
 }
