@@ -1426,6 +1426,39 @@ pub fn get_library_version() -> Result<String, LexActivatorError> {
 
 // ------------------ Action Functions ------------------
 
+/// Authenticates the user.
+/// 
+/// It sends the request to the Cryptlex servers to authenticate the user.
+///
+/// # Arguments
+/// 
+/// * `email` - user email address.
+/// * `password` - user password.
+///
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn authenticate_user(email: String, password: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_email = to_utf16(email);
+        let c_password = to_utf16(password);
+        status = unsafe { AuthenticateUser(c_email.as_ptr(), c_password.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_email = string_to_cstring(email)?;
+        let c_password = string_to_cstring(password)?;
+        status = unsafe { AuthenticateUser(c_email.as_ptr(), c_password.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
 /// Activates the license by contacting the Cryptlex servers. 
 /// 
 /// It validates the key and returns with encrypted and digitally signed token which it stores and uses to activate the application.

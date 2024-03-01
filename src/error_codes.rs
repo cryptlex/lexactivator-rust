@@ -71,9 +71,12 @@ pub enum LexActivatorError {
     LA_E_RELEASE_VERSION = 84,
     LA_E_RELEASE_PLATFORM = 85,
     LA_E_RELEASE_CHANNEL = 86,
+    LA_E_USER_NOT_AUTHENTICATED = 87,
     LA_E_RATE_LIMIT = 90,
     LA_E_SERVER = 91,
     LA_E_CLIENT = 92
+    LA_E_CLIENT = 92,
+    LA_E_LOGIN_TEMPORARILY_LOCKED = 100,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -145,9 +148,11 @@ impl From<i32> for LexActivatorError {
             84 => LexActivatorError::LA_E_RELEASE_VERSION,
             85 => LexActivatorError::LA_E_RELEASE_PLATFORM,
             86 => LexActivatorError::LA_E_RELEASE_CHANNEL,
+            87 => LexActivatorError::LA_E_USER_NOT_AUTHENTICATED,
             90 => LexActivatorError::LA_E_RATE_LIMIT,
             91 => LexActivatorError::LA_E_SERVER,
             92 => LexActivatorError::LA_E_CLIENT,
+            100 => LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED,
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -222,9 +227,11 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_RELEASE_VERSION => write!(f, "{} Invalid release version. Make sure the release version uses the following formats: x.x, x.x.x, x.x.x.x (where x is a number).", LexActivatorError::LA_E_RELEASE_VERSION as i32),
             LexActivatorError::LA_E_RELEASE_PLATFORM => write!(f, "{} Release platform not set.", LexActivatorError::LA_E_RELEASE_PLATFORM as i32),
             LexActivatorError::LA_E_RELEASE_CHANNEL => write!(f, "{} Release channel not set.", LexActivatorError::LA_E_RELEASE_CHANNEL as i32),
+            LexActivatorError::LA_E_USER_NOT_AUTHENTICATED => write!(f, "{} The user is not authenticated.", LexActivatorError::LA_E_USER_NOT_AUTHENTICATED as i32),
             LexActivatorError::LA_E_RATE_LIMIT => write!(f, "{} Rate limit for API has reached, try again later.", LexActivatorError::LA_E_RATE_LIMIT as i32),
             LexActivatorError::LA_E_SERVER => write!(f, "{} Server error.", LexActivatorError::LA_E_SERVER as i32),
             LexActivatorError::LA_E_CLIENT => write!(f, "{} Client error.", LexActivatorError::LA_E_CLIENT as i32),
+            LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED => write!(f, "{} The user account has been temporarily locked for 5 mins due to 5 failed attempts.", LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED as i32),
         }
     }
 }
