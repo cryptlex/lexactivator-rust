@@ -65,6 +65,21 @@ pub struct OrganizationAddress {
     pub postal_code: String
 }
 
+#[derive(Debug, Deserialize)] 
+pub struct UserLicense {
+    /// The allowed activations count of a license.
+    #[serde(rename = "allowedActivations")]
+    pub allowed_activations: u32,
+    /// The allowed deactivations count of a license.
+    #[serde(rename = "allowedDeactivations")]
+    pub allowed_deactivations: u32,
+    /// The license key.
+    pub key: String,
+    /// The license type.
+    #[serde(rename = "type")]
+    pub license_type: String
+}
+
 #[repr(u32)]
 pub enum PermissionFlags {
     LA_USER = 1,
@@ -1174,7 +1189,43 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
     } else {
         return Err(LexActivatorError::from(status));
     }
+/// Retrieves the user licenses associated with the current user.
+///
+/// This function sends a network request to Cryptlex servers to get the licenses.
+///
+/// Make sure AuthenticateUser() function is called before calling this function.
+///
+/// # Returns
+///
+/// Returns `Ok(Vec<UserLicense>)` with the user licenses if retrieved successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned. 
 
+pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let user_licenses_json: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetUserLicensesInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        user_licenses_json = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetUserLicensesInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        user_licenses_json = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        if user_licenses_json.is_empty() {
+            Ok(Vec::new())
+        } else {
+            let user_licenses: Vec<UserLicense> = serde_json::from_str(&user_licenses_json).expect("Failed to parse JSON");
+            Ok(user_licenses)
+        }
+        
+    } else {
+        Err(LexActivatorError::from(status))
+    }
 }
 
 /// Retrieves the type of the license.

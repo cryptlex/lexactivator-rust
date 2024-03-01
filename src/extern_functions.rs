@@ -74,6 +74,7 @@ extern "C" {
     pub fn GetLicenseUserMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseOrganizationName(organizationName: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseOrganizationAddressInternal(organizationAddressJson: strtype!(), length: c_uint) -> c_int;
+    pub fn GetUserLicensesInternal(userLicenses: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseType(licenseType: strtype!(), length: c_uint) -> c_int;
     pub fn GetActivationMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetActivationMode(initialMode: strtype!(), initialModeLength: c_uint, currentMode: strtype!(), currentModeLength: c_uint) -> c_int;
