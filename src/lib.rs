@@ -46,7 +46,7 @@ pub struct ActivationMode {
 }
 
 /// Represents an organization address.
-#[derive(Debug, Deserialize)] 
+#[derive(Debug, Deserialize, Default)] 
 pub struct OrganizationAddress {
     /// The first line of the address.
     #[serde(rename = "addressLine1")]
@@ -1200,12 +1200,18 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
         status = unsafe { GetLicenseOrganizationAddressInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
         org_address_json = c_char_to_string(&buffer);
     }
-    let org_address: OrganizationAddress = serde_json::from_str(&org_address_json).expect("Failed to parse JSON");
     if status == 0 {
-        Ok(org_address)
+        if org_address_json.trim().is_empty() {
+            Ok(OrganizationAddress::default())
+        } else {
+            let org_address: OrganizationAddress = serde_json::from_str(&org_address_json).expect("Failed to parse JSON");
+            Ok(org_address)
+        }
     } else {
         return Err(LexActivatorError::from(status));
     }
+}
+
 /// Retrieves the user licenses associated with the current user.
 ///
 /// This function sends a network request to Cryptlex servers to get the licenses.
