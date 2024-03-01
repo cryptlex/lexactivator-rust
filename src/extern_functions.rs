@@ -49,6 +49,7 @@ extern "C" {
     pub fn SetOfflineActivationRequestMeterAttributeUses(name: cstrtype!(), uses: c_uint) -> c_int;
     pub fn SetNetworkProxy(proxy: cstrtype!()) -> c_int;
     pub fn SetCryptlexHost(host: cstrtype!()) -> c_int;
+    pub fn SetTwoFactorAuthenticationCode(twoFactorAuthenticationCode: cstrtype!()) -> c_int;
 
     // --------------- Getter Functions ---------------
 

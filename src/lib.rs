@@ -578,6 +578,35 @@ pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorError> {
     }
 }
 
+/// Sets the two-factor authentication code for the user authentication.
+/// 
+/// # Arguments
+///
+/// * `two_factor_authentication_code` - The 2FA code.
+///
+/// # Returns
+///
+/// Returns `Ok(())` if the two_factor_authentication_code is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn set_two_factor_authentication_code(two_factor_authentication_code: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_two_factor_authentication_code = to_utf16(two_factor_authentication_code);
+        status = unsafe { SetTwoFactorAuthenticationCode(c_two_factor_authentication_code.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_two_factor_authentication_code = string_to_cstring(two_factor_authentication_code)?;
+        status = unsafe { SetTwoFactorAuthenticationCode(c_two_factor_authentication_code.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 // ------------------- Getter Functions --------------------
 
 pub fn get_product_metadata(key: String) -> Result<String, LexActivatorError> {
