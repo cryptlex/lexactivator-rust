@@ -194,6 +194,23 @@ pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorError> {
     }
 }
 
+/// Enables network logs.
+///
+/// This function should be used for network testing only in case of network errors. By default logging is disabled.
+///
+/// This function generates the lexactivator-logs.log file in the same directory where the application is running.
+///
+/// # Arguments
+///
+/// * `enable` - 0 or 1 to disable or enable logging.
+///
+/// Returns `Ok(())` if the debug mode is enabled successfully.
+
+pub fn set_debug_mode(enable: u32) {
+    let c_enable: c_uint = enable as c_uint;
+    unsafe { SetDebugMode(c_enable) };
+}
+    
 /// In case you don't want to use the LexActivator's advanced device fingerprinting algorithm, this function can be used to set a custom device fingerprint.
 /// 
 /// # Arguments
