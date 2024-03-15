@@ -323,3 +323,10 @@ impl From<NulError> for LexActivatorError {
         LexActivatorError::LA_E_CLIENT  
     }
 }
+
+#[derive(Debug)]
+#[repr(i32)]
+pub enum LexActivatorCode {
+    Status(LexActivatorStatus),
+    Error(LexActivatorError),
+}

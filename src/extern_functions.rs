@@ -1,5 +1,7 @@
 use std::ffi::{c_char, c_int, c_uint};
 
+use crate::LexActivatorCode;
+
 #[cfg(windows)]
 macro_rules! cstrtype {
     () => {
@@ -28,7 +30,7 @@ macro_rules! strtype {
     }
 }
 
-pub type CallbackType = extern "C" fn(u32);
+pub type CallbackType = extern "C" fn(LexActivatorCode);
 
 extern "C" {
     // --------------- Setter Functions ---------------
