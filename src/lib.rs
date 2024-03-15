@@ -65,6 +65,7 @@ pub struct OrganizationAddress {
     pub postal_code: String
 }
 
+/// Represents a user license with information about various license parameters.
 #[derive(Debug, Deserialize)] 
 pub struct UserLicense {
     /// The allowed activations count of a license.
@@ -80,6 +81,7 @@ pub struct UserLicense {
     pub license_type: String
 }
 
+/// Represents various permission flags.
 #[repr(u32)]
 pub enum PermissionFlags {
     LA_USER = 1,
