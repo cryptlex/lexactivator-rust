@@ -1,5 +1,7 @@
 use std::ffi::{c_char, c_int, c_uint};
 
+use crate::LexActivatorCode;
+
 #[cfg(windows)]
 macro_rules! cstrtype {
     () => {
@@ -28,13 +30,14 @@ macro_rules! strtype {
     }
 }
 
-pub type CallbackType = extern "C" fn(u32);
+pub type CallbackType = extern "C" fn(LexActivatorCode);
 
 extern "C" {
     // --------------- Setter Functions ---------------
     pub fn SetProductData(productData: cstrtype!()) -> c_int;
     pub fn SetProductId(productId: cstrtype!() , flags: c_uint) -> c_int;
     pub fn SetDataDirectory(dataDir: cstrtype!()) -> c_int;
+    pub fn SetDebugMode(enable: c_uint) -> c_uint;
     pub fn SetCustomDeviceFingerprint(deviceFingerprint: cstrtype!()) -> c_int;
     pub fn SetLicenseKey(licenseKey: cstrtype!()) -> c_int;
     pub fn SetLicenseUserCredential(email: cstrtype!(), password: cstrtype!()) -> c_int;
@@ -49,6 +52,7 @@ extern "C" {
     pub fn SetOfflineActivationRequestMeterAttributeUses(name: cstrtype!(), uses: c_uint) -> c_int;
     pub fn SetNetworkProxy(proxy: cstrtype!()) -> c_int;
     pub fn SetCryptlexHost(host: cstrtype!()) -> c_int;
+    pub fn SetTwoFactorAuthenticationCode(twoFactorAuthenticationCode: cstrtype!()) -> c_int;
 
     // --------------- Getter Functions ---------------
 
@@ -62,6 +66,8 @@ extern "C" {
     pub fn GetLicenseAllowedDeactivations(allowedDeactivations: *mut c_uint) -> c_int;
     pub fn GetLicenseTotalActivations(totalActivations: *mut c_uint) -> c_int;
     pub fn GetLicenseTotalDeactivations(totalDeactivations: *mut c_uint) -> c_int;
+    pub fn GetLicenseCreationDate(creationDate: *mut c_uint) -> c_int;
+    pub fn GetLicenseActivationDate(activationDate: *mut c_uint) -> c_int;
     pub fn GetLicenseExpiryDate(expiryDate: *mut c_uint) -> c_int;
     pub fn GetLicenseMaintenanceExpiryDate(maintenanceExpiryDate: *mut c_uint) -> c_int;
     pub fn GetLicenseMaxAllowedReleaseVersion(maxAllowedReleaseVersion: strtype!(), length: c_uint) -> c_int;
@@ -71,7 +77,9 @@ extern "C" {
     pub fn GetLicenseUserMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseOrganizationName(organizationName: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseOrganizationAddressInternal(organizationAddressJson: strtype!(), length: c_uint) -> c_int;
+    pub fn GetUserLicensesInternal(userLicenses: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseType(licenseType: strtype!(), length: c_uint) -> c_int;
+    pub fn GetActivationId(id:strtype!(), length: c_uint) -> c_int;
     pub fn GetActivationMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetActivationMode(initialMode: strtype!(), initialModeLength: c_uint, currentMode: strtype!(), currentModeLength: c_uint) -> c_int;
     pub fn GetActivationMeterAttributeUses(name: cstrtype!(), uses: *mut c_uint) -> c_int;
@@ -85,6 +93,8 @@ extern "C" {
 
     // --------------- LexActivator Action Functions ---------------
 
+    pub fn AuthenticateUser(email: cstrtype!(), password: cstrtype!()) -> c_int;
+    pub fn AuthenticateUserWithIdToken(idToken: cstrtype!()) -> c_int;
     pub fn ActivateLicense() -> c_int;
     pub fn ActivateLicenseOffline(filePath: cstrtype!()) -> c_int;
     pub fn GenerateOfflineActivationRequest(filePath: cstrtype!()) -> c_int;

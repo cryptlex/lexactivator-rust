@@ -46,7 +46,7 @@ pub struct ActivationMode {
 }
 
 /// Represents an organization address.
-#[derive(Debug, Deserialize)] 
+#[derive(Debug, Deserialize, Default)] 
 pub struct OrganizationAddress {
     /// The first line of the address.
     #[serde(rename = "addressLine1")]
@@ -65,6 +65,23 @@ pub struct OrganizationAddress {
     pub postal_code: String
 }
 
+/// Represents a user license with information about various license parameters.
+#[derive(Debug, Deserialize)] 
+pub struct UserLicense {
+    /// The allowed activations count of a license.
+    #[serde(rename = "allowedActivations")]
+    pub allowed_activations: u32,
+    /// The allowed deactivations count of a license.
+    #[serde(rename = "allowedDeactivations")]
+    pub allowed_deactivations: u32,
+    /// The license key.
+    pub key: String,
+    /// The license type.
+    #[serde(rename = "type")]
+    pub license_type: String
+}
+
+/// Represents various permission flags.
 #[repr(u32)]
 pub enum PermissionFlags {
     LA_USER = 1,
@@ -179,6 +196,23 @@ pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorError> {
     }
 }
 
+/// Enables network logs.
+///
+/// This function should be used for network testing only in case of network errors. By default logging is disabled.
+///
+/// This function generates the lexactivator-logs.log file in the same directory where the application is running.
+///
+/// # Arguments
+///
+/// * `enable` - 0 or 1 to disable or enable logging.
+///
+/// Returns `Ok(())` if the debug mode is enabled successfully.
+
+pub fn set_debug_mode(enable: u32) {
+    let c_enable: c_uint = enable as c_uint;
+    unsafe { SetDebugMode(c_enable) };
+}
+    
 /// In case you don't want to use the LexActivator's advanced device fingerprinting algorithm, this function can be used to set a custom device fingerprint.
 /// 
 /// # Arguments
@@ -578,6 +612,35 @@ pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorError> {
     }
 }
 
+/// Sets the two-factor authentication code for the user authentication.
+/// 
+/// # Arguments
+///
+/// * `two_factor_authentication_code` - The 2FA code.
+///
+/// # Returns
+///
+/// Returns `Ok(())` if the two_factor_authentication_code is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn set_two_factor_authentication_code(two_factor_authentication_code: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_two_factor_authentication_code = to_utf16(two_factor_authentication_code);
+        status = unsafe { SetTwoFactorAuthenticationCode(c_two_factor_authentication_code.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_two_factor_authentication_code = string_to_cstring(two_factor_authentication_code)?;
+        status = unsafe { SetTwoFactorAuthenticationCode(c_two_factor_authentication_code.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 // ------------------- Getter Functions --------------------
 
 pub fn get_product_metadata(key: String) -> Result<String, LexActivatorError> {
@@ -873,6 +936,38 @@ pub fn get_license_total_deactivations() -> Result<u32, LexActivatorError> {
     }
 }
 
+/// Retrieves the license creation date timestamp.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the license creation date timestamp if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_creation_date() -> Result<u32, LexActivatorError> {
+    let mut creation_date:c_uint = 0;
+    let status = unsafe { GetLicenseCreationDate(&mut creation_date) };
+    if status == 0 {
+        Ok(creation_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the license activation date timestamp.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the license activation date timestamp if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_activation_date() -> Result<u32, LexActivatorError> {
+    let mut activation_date:c_uint = 0;
+    let status = unsafe { GetLicenseActivationDate(&mut activation_date) };
+    if status == 0 {
+        Ok(activation_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the expiry date of the license.
 ///
 /// # Returns
@@ -1107,13 +1202,55 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
         status = unsafe { GetLicenseOrganizationAddressInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
         org_address_json = c_char_to_string(&buffer);
     }
-    let org_address: OrganizationAddress = serde_json::from_str(&org_address_json).expect("Failed to parse JSON");
     if status == 0 {
-        Ok(org_address)
+        if org_address_json.trim().is_empty() {
+            Ok(OrganizationAddress::default())
+        } else {
+            let org_address: OrganizationAddress = serde_json::from_str(&org_address_json).expect("Failed to parse JSON");
+            Ok(org_address)
+        }
     } else {
         return Err(LexActivatorError::from(status));
     }
+}
 
+/// Retrieves the user licenses associated with the current user.
+///
+/// This function sends a network request to Cryptlex servers to get the licenses.
+///
+/// Make sure AuthenticateUser() function is called before calling this function.
+///
+/// # Returns
+///
+/// Returns `Ok(Vec<UserLicense>)` with the user licenses if retrieved successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned. 
+
+pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let user_licenses_json: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetUserLicensesInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        user_licenses_json = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetUserLicensesInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        user_licenses_json = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        if user_licenses_json.is_empty() {
+            Ok(Vec::new())
+        } else {
+            let user_licenses: Vec<UserLicense> = serde_json::from_str(&user_licenses_json).expect("Failed to parse JSON");
+            Ok(user_licenses)
+        }
+        
+    } else {
+        Err(LexActivatorError::from(status))
+    }
 }
 
 /// Retrieves the type of the license.
@@ -1140,6 +1277,35 @@ pub fn get_license_type() -> Result<String, LexActivatorError> {
     }
     if status == 0 {
         Ok(license_type)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the activation id.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the activation id if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_activation_id() -> Result<String, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let activation_id: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetActivationId(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        activation_id = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetActivationId(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        activation_id = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        Ok(activation_id)
     } else {
         return Err(LexActivatorError::from(status));
     }
@@ -1393,6 +1559,69 @@ pub fn get_library_version() -> Result<String, LexActivatorError> {
 }
 
 // ------------------ Action Functions ------------------
+
+/// Authenticates the user.
+/// 
+/// It sends the request to the Cryptlex servers to authenticate the user.
+///
+/// # Arguments
+/// 
+/// * `email` - user email address.
+/// * `password` - user password.
+///
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn authenticate_user(email: String, password: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_email = to_utf16(email);
+        let c_password = to_utf16(password);
+        status = unsafe { AuthenticateUser(c_email.as_ptr(), c_password.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_email = string_to_cstring(email)?;
+        let c_password = string_to_cstring(password)?;
+        status = unsafe { AuthenticateUser(c_email.as_ptr(), c_password.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Authenticates the user via OIDC Id token.
+///
+/// # Arguments
+/// 
+/// * `id_token` - The id token obtained from the OIDC provider.
+/// 
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn authenticate_user_with_id_token(id_token: String) -> Result<(), LexActivatorError> {
+    let status: i32;
+    #[cfg(windows)]
+    {
+        let c_id_token = to_utf16(id_token);
+        status = unsafe { AuthenticateUserWithIdToken(c_id_token.as_ptr()) };
+    }
+    #[cfg(not(windows))]
+    {
+        let c_id_token = string_to_cstring(id_token)?;
+        status = unsafe { AuthenticateUserWithIdToken(c_id_token.as_ptr()) };
+    }
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
 
 /// Activates the license by contacting the Cryptlex servers. 
 /// 
