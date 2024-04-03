@@ -141,19 +141,19 @@ pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
 /// * `product_id` - A `string` value representing the unique product id of your application as mentioned
 ///                  on the product page in the dashboard.
 ///
-/// - `permission_flags` - Depending on your application's requirements, choose one of 
+/// * `permission_flags` - Depending on your application's requirements, choose one of 
 ///             the following values: LA_SYSTEM, LA_USER, LA_IN_MEMORY, LA_ALL_USERS.
 ///      
-///     - `LA_USER` - This flag indicates that the application does not require
+///     - `LA_USER` : This flag indicates that the application does not require
 ///             admin or root permissions to run.
 ///        
-///     - `LA_SYSTEM` - This flag indicates that the application must be run with admin or 
+///     - `LA_SYSTEM` : This flag indicates that the application must be run with admin or 
 ///             root permissions.
 /// 
-///     - `LA_ALL_USERS` - This flag is specifically designed for Windows and should be used 
+///     - `LA_ALL_USERS` : This flag is specifically designed for Windows and should be used 
 ///             for system-wide activations.
 /// 
-///     - `LA_IN_MEMORY` - This flag will store activation data in memory. Thus, requires 
+///     - `LA_IN_MEMORY` : This flag will store activation data in memory. Thus, requires 
 ///             re-activation on every start of the application and should only be used in floating
 ///             licenses.
         
