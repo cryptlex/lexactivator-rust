@@ -149,6 +149,8 @@ pub enum LexActivatorError {
     LA_E_OIDC_SSO_NOT_ENABLED = 102,
     /// The allowed users for this account has reached its limit.
     LA_E_USERS_LIMIT_REACHED = 103,
+    /// OS user has changed since activation and the license is user-locked.
+    LA_E_OS_USER = 104,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -230,6 +232,7 @@ impl From<i32> for LexActivatorError {
             101 => LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID,
             102 => LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED,
             103 => LexActivatorError::LA_E_USERS_LIMIT_REACHED,
+            104 => LexActivatorError::LA_E_OS_USER,
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -314,6 +317,7 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID => write!(f, "{} Invalid authentication ID token.", LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID as i32),
             LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED => write!(f, "{} OIDC SSO is not enabled.", LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED as i32),
             LexActivatorError::LA_E_USERS_LIMIT_REACHED => write!(f, "{} The allowed users for this account has reached its limit.", LexActivatorError::LA_E_USERS_LIMIT_REACHED as i32),
+            LexActivatorError::LA_E_OS_USER => write!(f, "{} OS user has changed since activation and the license is user-locked.", LexActivatorError::LA_E_OS_USER as i32),
         }
     }
 }
