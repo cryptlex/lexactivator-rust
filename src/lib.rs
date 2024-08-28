@@ -45,6 +45,15 @@ pub struct ActivationMode {
     pub current_mode: String
 }
 
+/// Represents a metadata 
+#[derive(Debug, Deserialize, Default)]
+pub struct Metadata {
+    /// The key of the metadata.
+    pub key: String,
+    /// The value of the metadata.
+    pub value: String,
+}
+
 /// Represents an organization address.
 #[derive(Debug, Deserialize, Default)] 
 pub struct OrganizationAddress {
@@ -70,15 +79,17 @@ pub struct OrganizationAddress {
 pub struct UserLicense {
     /// The allowed activations count of a license.
     #[serde(rename = "allowedActivations")]
-    pub allowed_activations: u32,
+    pub allowed_activations: i64,
     /// The allowed deactivations count of a license.
     #[serde(rename = "allowedDeactivations")]
-    pub allowed_deactivations: u32,
+    pub allowed_deactivations: i64,
     /// The license key.
     pub key: String,
     /// The license type.
     #[serde(rename = "type")]
-    pub license_type: String
+    pub license_type: String,
+    /// Optional metadata associated with the license.
+    pub metadata: Vec<Metadata>
 }
 
 /// Represents various permission flags.
@@ -113,7 +124,7 @@ pub enum PermissionFlags {
 
 
 pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
-    
+
     let status: i32;
     #[cfg(windows)]
     {
@@ -1243,7 +1254,7 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
 
 pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
     let status: i32;
-    const LENGTH: usize = 256;
+    const LENGTH: usize = 1024;
     let user_licenses_json: String;
     #[cfg(windows)]
     {
