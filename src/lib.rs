@@ -10,7 +10,18 @@ pub use error_codes::*;
 mod string_utils;
 use string_utils::*;
 
+static mut CALLBACK_FUNCTION: Option<CallbackType> = None;
 
+pub type CallbackType = extern "C" fn(LexActivatorCode);
+
+extern "C" fn wrapper(code: i32) {
+    let callback_status = LexActivatorCode::from_i32(code);
+    unsafe {
+        if let Some(callback) = CALLBACK_FUNCTION {
+            callback(callback_status);
+        }
+    }
+}
 
 /// Represents a license meter attribute.
 #[derive(Debug)] 
@@ -340,8 +351,11 @@ pub fn set_license_user_credential(email: String, password: String) -> Result<()
 /// Returns `Ok(())` if the license callback is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
 pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorError> {
-    let status: i32;
-    status = unsafe { SetLicenseCallback(callback) };
+    unsafe {
+        CALLBACK_FUNCTION = Some(callback);
+    }
+    let status: i32 = unsafe { SetLicenseCallback(wrapper) };
+
     if status == 0 {
         Ok(())
     } else {

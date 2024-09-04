@@ -334,3 +334,13 @@ pub enum LexActivatorCode {
     Status(LexActivatorStatus),
     Error(LexActivatorError),
 }
+
+impl LexActivatorCode {
+    pub fn from_i32(code: i32) -> Self {
+        match code {
+            0..=32 => LexActivatorCode::Status(LexActivatorStatus::from(code)),
+            40..=104 => LexActivatorCode::Error(LexActivatorError::from(code)),
+            _ => LexActivatorCode::Error(LexActivatorError::LA_E_CLIENT), // Fallback to a general error
+        }
+    }
+}
