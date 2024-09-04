@@ -30,7 +30,7 @@ macro_rules! strtype {
     }
 }
 
-pub type CallbackType = extern "C" fn(LexActivatorCode);
+pub type CallbackType = extern "C" fn(i32);
 
 extern "C" {
     // --------------- Setter Functions ---------------
