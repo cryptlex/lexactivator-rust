@@ -1,4 +1,5 @@
-use std::ffi::{c_char, c_int, c_uint};
+//https://doc.rust-lang.org/std/os/raw/index.html#types
+use std::ffi::{c_char, c_int, c_uint, c_longlong, c_ulonglong};
 
 use crate::LexActivatorCode;
 
@@ -35,16 +36,19 @@ pub type CallbackType = extern "C" fn(LexActivatorCode);
 extern "C" {
     // --------------- Setter Functions ---------------
     pub fn SetProductData(productData: cstrtype!()) -> c_int;
+    pub fn SetProductFile(filePath: cstrtype!()) -> c_int;
     pub fn SetProductId(productId: cstrtype!() , flags: c_uint) -> c_int;
     pub fn SetDataDirectory(dataDir: cstrtype!()) -> c_int;
     pub fn SetDebugMode(enable: c_uint) -> c_uint;
+    pub fn SetCacheMode(mode: c_uint) -> c_uint;
     pub fn SetCustomDeviceFingerprint(deviceFingerprint: cstrtype!()) -> c_int;
     pub fn SetLicenseKey(licenseKey: cstrtype!()) -> c_int;
     pub fn SetLicenseUserCredential(email: cstrtype!(), password: cstrtype!()) -> c_int;
     pub fn SetLicenseCallback(callback: CallbackType) ->c_int;
-    pub fn SetActivationLeaseDuration(leaseDuration: c_uint) -> c_int;
+    pub fn SetActivationLeaseDuration(leaseDuration: c_longlong) -> c_int;
     pub fn SetActivationMetadata(key: cstrtype!(), value: cstrtype!()) -> c_int;
     pub fn SetTrialActivationMetadata(key: cstrtype!(), value: cstrtype!()) -> c_int;
+    pub fn SetAppVersion(appVersion: cstrtype!()) -> c_int;
     pub fn SetReleaseVersion(releaseVersion: cstrtype!()) -> c_int;
     pub fn SetReleasePublishedDate(releasePublishedDate: c_uint) -> c_int;
     pub fn SetReleasePlatform(platform: cstrtype!()) -> c_int;
@@ -62,8 +66,8 @@ extern "C" {
     pub fn GetProductVersionFeatureFlag(name: cstrtype!(), enabled: *mut c_uint, data: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseKey(licenseKey: strtype!(), length: c_uint) -> c_int;
-    pub fn GetLicenseAllowedActivations(allowedActivations: *mut c_uint) -> c_int;
-    pub fn GetLicenseAllowedDeactivations(allowedDeactivations: *mut c_uint) -> c_int;
+    pub fn GetLicenseAllowedActivations(allowedActivations: *mut c_longlong) -> c_int;
+    pub fn GetLicenseAllowedDeactivations(allowedDeactivations: *mut c_longlong) -> c_int;
     pub fn GetLicenseTotalActivations(totalActivations: *mut c_uint) -> c_int;
     pub fn GetLicenseTotalDeactivations(totalDeactivations: *mut c_uint) -> c_int;
     pub fn GetLicenseCreationDate(creationDate: *mut c_uint) -> c_int;
@@ -89,7 +93,7 @@ extern "C" {
     pub fn GetTrialId(trialId: strtype!(), length: c_uint) -> c_int;
     pub fn GetLocalTrialExpiryDate(localTrialExpiryDate: *mut c_uint) -> c_int;
     pub fn GetLibraryVersion(libraryVersion: strtype!(), length: c_uint) -> c_int;
-    pub fn GetLicenseMeterAttribute(name: cstrtype!(), allowedUses: *mut c_uint, totalUses: *mut c_uint, expiryDate: *mut c_uint) -> c_int;
+    pub fn GetLicenseMeterAttribute(name: cstrtype!(), allowedUses: *mut c_longlong, totalUses: *mut c_ulonglong, grossUses: *mut c_ulonglong) -> c_int;
 
     // --------------- LexActivator Action Functions ---------------
 
