@@ -108,40 +108,6 @@ pub enum PermissionFlags {
 
 // --------------- Setter functions ------------------------
 
-/// Sets the absolute path of the Product.dat file.
-/// 
-/// This function must be called on every start of your program before any other functions are called.
-///
-/// 
-/// # Arguments
-/// 
-/// * `file_path` - absolute path of the product file (Product.dat).
-/// 
-/// # Returns
-/// 
-/// Returns `Ok(())` if the product path is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
-
-
-pub fn set_product_file(file_path: String) -> Result<(), LexActivatorError> {
-
-    let status: i32;
-    #[cfg(windows)]
-    {
-        let file_path = to_utf16(file_path);
-        status = unsafe { SetProductFile(file_path.as_ptr()) };
-    }
-    #[cfg(not(windows))]
-    {
-        let file_path = string_to_cstring(file_path)?;
-        status = unsafe { SetProductFile(file_path.as_ptr()) };
-    }
-    if status == 0 {
-        Ok(())
-    } else {
-        return Err(LexActivatorError::from(status));
-    }
-}
-
 /// Embeds the Product.dat file in the application.
 /// 
 /// This function must be called on every start of your program before any other functions are called.

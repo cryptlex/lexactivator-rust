@@ -36,7 +36,6 @@ pub type CallbackType = extern "C" fn(LexActivatorCode);
 extern "C" {
     // --------------- Setter Functions ---------------
     pub fn SetProductData(productData: cstrtype!()) -> c_int;
-    pub fn SetProductFile(filePath: cstrtype!()) -> c_int;
     pub fn SetProductId(productId: cstrtype!() , flags: c_uint) -> c_int;
     pub fn SetDataDirectory(dataDir: cstrtype!()) -> c_int;
     pub fn SetDebugMode(enable: c_uint) -> c_uint;
