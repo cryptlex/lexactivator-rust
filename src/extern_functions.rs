@@ -40,7 +40,7 @@ extern "C" {
     pub fn SetProductId(productId: cstrtype!() , flags: c_uint) -> c_int;
     pub fn SetDataDirectory(dataDir: cstrtype!()) -> c_int;
     pub fn SetDebugMode(enable: c_uint) -> c_uint;
-    pub fn SetCacheMode(mode: c_uint) -> c_uint;
+    pub fn SetCacheMode(mode: c_int) -> c_int;
     pub fn SetCustomDeviceFingerprint(deviceFingerprint: cstrtype!()) -> c_int;
     pub fn SetLicenseKey(licenseKey: cstrtype!()) -> c_int;
     pub fn SetLicenseUserCredential(email: cstrtype!(), password: cstrtype!()) -> c_int;
