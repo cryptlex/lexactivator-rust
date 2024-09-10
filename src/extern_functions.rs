@@ -38,7 +38,7 @@ extern "C" {
     pub fn SetProductData(productData: cstrtype!()) -> c_int;
     pub fn SetProductId(productId: cstrtype!() , flags: c_uint) -> c_int;
     pub fn SetDataDirectory(dataDir: cstrtype!()) -> c_int;
-    pub fn SetDebugMode(enable: c_uint) -> c_uint;
+    pub fn SetDebugMode(enable: c_uint) -> c_int;
     pub fn SetCacheMode(mode: c_int) -> c_int;
     pub fn SetCustomDeviceFingerprint(deviceFingerprint: cstrtype!()) -> c_int;
     pub fn SetLicenseKey(licenseKey: cstrtype!()) -> c_int;
@@ -47,7 +47,6 @@ extern "C" {
     pub fn SetActivationLeaseDuration(leaseDuration: c_longlong) -> c_int;
     pub fn SetActivationMetadata(key: cstrtype!(), value: cstrtype!()) -> c_int;
     pub fn SetTrialActivationMetadata(key: cstrtype!(), value: cstrtype!()) -> c_int;
-    pub fn SetAppVersion(appVersion: cstrtype!()) -> c_int;
     pub fn SetReleaseVersion(releaseVersion: cstrtype!()) -> c_int;
     pub fn SetReleasePublishedDate(releasePublishedDate: c_uint) -> c_int;
     pub fn SetReleasePlatform(platform: cstrtype!()) -> c_int;

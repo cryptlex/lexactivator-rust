@@ -470,37 +470,6 @@ pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), L
     }
 }
 
-/// Sets the current app version of your application.
-/// The app version appears along with the activation details in dashboard. 
-/// It is also used to generate app analytics.
-
-/// # Arguments
-///
-/// * `app_version` - string of maximum length 256 characters.
-///
-/// # Returns
-///
-/// Returns `Ok(())` if the release version is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
-
-pub fn set_app_version(app_version: String) -> Result<(), LexActivatorError> {
-    let status: i32;
-    #[cfg(windows)]
-    {
-        let c_app_version = to_utf16(app_version);
-        status = unsafe { SetAppVersion(c_app_version.as_ptr()) };
-    }
-    #[cfg(not(windows))]
-    {
-        let c_app_version = string_to_cstring(app_version)?;
-        status = unsafe { SetAppVersion(c_app_version.as_ptr()) };
-    }
-    if status == 0 {
-        Ok(())
-    } else {
-        return Err(LexActivatorError::from(status));
-    }
-}
-
 /// Sets the release version.
 ///
 /// # Arguments
