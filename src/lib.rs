@@ -88,7 +88,7 @@ pub struct UserLicense {
     /// The license type.
     #[serde(rename = "type")]
     pub license_type: String,
-    /// Optional metadata associated with the license.
+    /// License metadata with view_permission set to "user".
     pub metadata: Vec<Metadata>
 }
 
