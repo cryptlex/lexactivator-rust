@@ -258,7 +258,7 @@ pub fn set_debug_mode(enable: u32) {
 /// Returns `Ok(())` if mode is set successfully.
 
 pub fn set_cache_mode(mode: bool) -> Result<(), LexActivatorError> {
-    let c_mode: c_int = if mode { 1 } else { 0 };  
+    let c_mode: c_uint = if mode { 1 } else { 0 };  
     let status = unsafe { SetCacheMode(c_mode) };   
     if status == 0 {
         Ok(())
