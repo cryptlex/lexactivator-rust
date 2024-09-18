@@ -2,28 +2,6 @@ use std::io::{self, BufRead}; // for user input (pause)
 
 use lexactivator::*;
 
-pub type CallbackType = extern "C" fn(LexActivatorCode);
-
-extern "C" fn license_callback(code: LexActivatorCode) {
-    match code {
-        LexActivatorCode::Status(status) => {
-            match status {
-                LexActivatorStatus::LA_OK => println!("License is active!"),
-                LexActivatorStatus::LA_EXPIRED => println!("License has expired!"),
-                LexActivatorStatus::LA_SUSPENDED => println!("License has been suspended!"),
-                LexActivatorStatus::LA_GRACE_PERIOD_OVER => println!("License grace period is over!"),
-                _ => println!("Unknown license status"),
-            }
-        }
-        LexActivatorCode::Error(error) => {
-            match error {
-                LexActivatorError::LA_E_ACTIVATION_NOT_FOUND => println!("The license activation was deleted on the server."),
-                _ => println!("Unknown error"),
-            }
-        }
-    }
-}
-
 fn main() {
     let product_data: String = "Product.dat_content".to_string();
     let product_id: String = "Product_id".to_string();
@@ -53,7 +31,23 @@ fn main() {
         }
     }
     let callback_result: Result<(), LexActivatorError> =
-        lexactivator::set_license_callback(license_callback);
+        lexactivator::set_license_callback(|code| match code {
+            LexActivatorCode::Status(status) => match status {
+                LexActivatorStatus::LA_OK => println!("License is active!"),
+                LexActivatorStatus::LA_EXPIRED => println!("License has expired!"),
+                LexActivatorStatus::LA_SUSPENDED => println!("License has been suspended!"),
+                LexActivatorStatus::LA_GRACE_PERIOD_OVER => {
+                    println!("License grace period is over!")
+                }
+                _ => println!("Unknown license status"),
+            },
+            LexActivatorCode::Error(error) => match error {
+                LexActivatorError::LA_E_ACTIVATION_NOT_FOUND => {
+                    println!("The license activation was deleted on the server.")
+                }
+                _ => println!("Error: {}", error),
+            },
+        });
     println!("SetLicenseCallback: {:?}", callback_result);
 
     let validation_result: Result<LexActivatorStatus, LexActivatorError> =
