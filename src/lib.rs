@@ -30,11 +30,11 @@ pub struct LicenseMeterAttribute {
     /// The name of the meter attribute.
     pub name: String,
     /// The number of allowed uses for the meter attribute.
-    pub allowed_uses: u32,
+    pub allowed_uses: i64,
     /// The total number of uses recorded for the meter attribute.
-    pub total_uses: u32,
+    pub total_uses: u64,
     /// The gross number of uses for the meter attribute.
-    pub gross_uses: u32
+    pub gross_uses: u64
 }
 
 /// Represents a product version feature flag.
@@ -55,6 +55,15 @@ pub struct ActivationMode {
     pub initial_mode: String,
     /// The current activation mode.
     pub current_mode: String
+}
+
+/// Represents a metadata 
+#[derive(Debug, Deserialize, Default)]
+pub struct Metadata {
+    /// The key of the metadata.
+    pub key: String,
+    /// The value of the metadata.
+    pub value: String,
 }
 
 /// Represents an organization address.
@@ -82,15 +91,17 @@ pub struct OrganizationAddress {
 pub struct UserLicense {
     /// The allowed activations count of a license.
     #[serde(rename = "allowedActivations")]
-    pub allowed_activations: u32,
+    pub allowed_activations: i64,
     /// The allowed deactivations count of a license.
     #[serde(rename = "allowedDeactivations")]
-    pub allowed_deactivations: u32,
+    pub allowed_deactivations: i64,
     /// The license key.
     pub key: String,
     /// The license type.
     #[serde(rename = "type")]
-    pub license_type: String
+    pub license_type: String,
+    /// The license metadata.
+    pub metadata: Vec<Metadata>
 }
 
 /// Represents various permission flags.
@@ -125,7 +136,7 @@ pub enum PermissionFlags {
 
 
 pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
-    
+
     let status: i32;
     #[cfg(windows)]
     {
@@ -241,7 +252,33 @@ pub fn set_debug_mode(enable: u32) {
     let c_enable: c_uint = enable as c_uint;
     unsafe { SetDebugMode(c_enable) };
 }
-    
+
+/// Enables or disables in-memory caching for LexActivator. 
+/// 
+/// This function is designed to control caching behavior to suit specific application requirements. 
+/// 
+/// Caching is enabled by default to enhance performance.
+///
+/// Disabling caching is recommended in environments where multiple processes access the same license on a 
+///
+/// single machine and require real-time updates to the license state.
+///
+/// # Arguments
+///
+/// * `mode` - False or True to disable or enable caching.
+///
+/// Returns `Ok(())` if mode is set successfully.
+
+pub fn set_cache_mode(mode: bool) -> Result<(), LexActivatorError> {
+    let c_mode: c_uint = if mode { 1 } else { 0 };  
+    let status = unsafe { SetCacheMode(c_mode) };   
+    if status == 0 {
+        Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// In case you don't want to use the LexActivator's advanced device fingerprinting algorithm, this function can be used to set a custom device fingerprint.
 /// 
 /// # Arguments
@@ -377,14 +414,14 @@ pub fn unset_license_callback() {
 ///
 /// # Arguments
 ///
-/// * `lease_duration` - The lease duration in seconds.
+/// * `lease_duration` - The lease duration in seconds. A value of -1 indicates unlimited lease duration.
 ///
 /// # Returns
 ///
 /// Returns `Ok(())` if the activation lease duration is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_activation_lease_duration(lease_duration: u32) -> Result<(), LexActivatorError> {
-    let c_lease_duration: c_uint = lease_duration as c_uint;
+pub fn set_activation_lease_duration(lease_duration: i64) -> Result<(), LexActivatorError> {
+    let c_lease_duration: c_longlong = lease_duration as c_longlong;
     let status = unsafe { SetActivationLeaseDuration(c_lease_duration) };
     if status == 0 {
         Ok(())
@@ -858,9 +895,9 @@ pub fn get_license_metadata(key: String) -> Result<String, LexActivatorError> {
 pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute, LexActivatorError> {
     let status: i32;
     let meter_attribute_name: String = name.clone();
-    let mut c_allowed_uses: c_uint = 0;
-    let mut c_total_uses: c_uint = 0;
-    let mut c_gross_uses: c_uint = 0;
+    let mut c_allowed_uses: c_longlong = 0;
+    let mut c_total_uses: c_ulonglong = 0;
+    let mut c_gross_uses: c_ulonglong = 0;
     #[cfg(windows)]
     {
         let c_name =  to_utf16(name);
@@ -917,10 +954,10 @@ pub fn get_license_key() -> Result<String, LexActivatorError> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the number of allowed activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(i64)` with the number of allowed activations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_allowed_activations() -> Result<u32, LexActivatorError> {
-    let mut allowed_activations: c_uint = 0;
+pub fn get_license_allowed_activations() -> Result<i64, LexActivatorError> {
+    let mut allowed_activations: c_longlong = 0;
     let status = unsafe { GetLicenseAllowedActivations(&mut allowed_activations) };
     if status == 0 {
         Ok(allowed_activations)
@@ -949,10 +986,10 @@ pub fn get_license_total_activations() -> Result<u32, LexActivatorError> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(u32)` with the number of allowed deactivations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(i64)` with the number of allowed deactivations if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_allowed_deactivations() -> Result<u32, LexActivatorError> {
-    let mut allowed_deactivations: c_uint = 0;
+pub fn get_license_allowed_deactivations() -> Result<i64, LexActivatorError> {
+    let mut allowed_deactivations: c_longlong = 0;
     let status = unsafe { GetLicenseAllowedDeactivations(&mut allowed_deactivations) };
     if status == 0 {
         Ok(allowed_deactivations)
@@ -1267,7 +1304,7 @@ pub fn get_license_organization_address() -> Result<OrganizationAddress, LexActi
 
 pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
     let status: i32;
-    const LENGTH: usize = 256;
+    const LENGTH: usize = 1024;
     let user_licenses_json: String;
     #[cfg(windows)]
     {
