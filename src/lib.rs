@@ -1,5 +1,6 @@
 use std::ffi::*;
 use serde::Deserialize;
+use std::sync::{LazyLock, Mutex};
 
 mod extern_functions;
 use extern_functions::*;
@@ -10,16 +11,16 @@ pub use error_codes::*;
 mod string_utils;
 use string_utils::*;
 
-static mut CALLBACK_FUNCTION: Option<CallbackType> = None;
+type LicenseCallback = dyn Fn(LexActivatorCode) + Send + 'static;
 
-pub type CallbackType = extern "C" fn(LexActivatorCode);
+static CALLBACK_FUNCTION: LazyLock<Mutex<Option<Box<LicenseCallback>>>> =
+    LazyLock::new(|| Mutex::new(None));
 
 extern "C" fn wrapper(code: i32) {
     let callback_status = LexActivatorCode::from_i32(code);
-    unsafe {
-        if let Some(callback) = CALLBACK_FUNCTION {
-            callback(callback_status);
-        }
+    let callback = CALLBACK_FUNCTION.lock().unwrap();
+    if let Some(callback) = callback.as_ref() {
+        callback(callback_status);
     }
 }
 
@@ -334,26 +335,28 @@ pub fn set_license_user_credential(email: String, password: String) -> Result<()
     }
 }
 
-/// Sets the license callback function.
-/// 
-/// Whenever the server sync occurs in a separate thread, and server returns the response, 
-/// license callback function gets invoked with the following status codes:
+/// Sets the license closure callback.
+///
+/// Whenever the server sync occurs in a separate thread, and server returns the response,
+/// license closure callback gets invoked with the following status codes:
 /// LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_E_REVOKED, LA_E_ACTIVATION_NOT_FOUND, LA_E_MACHINE_FINGERPRINT
-/// LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_INET, LA_E_SERVER,LA_E_RATE_LIMIT, LA_E_IP, 
+/// LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_INET, LA_E_SERVER,LA_E_RATE_LIMIT, LA_E_IP,
 /// LA_E_RELEASE_VERSION_NOT_ALLOWED, LA_E_RELEASE_VERSION_FORMAT
 ///
 /// # Arguments
 ///
-/// * `callback` - The callback function to be set.
+/// * `closure` - The closure callback to be set e.g. |code| { println!("{:?}", code) }
 ///
 /// # Returns
 ///
-/// Returns `Ok(())` if the license callback is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(())` if the license closure callback is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorError> {
-    unsafe {
-        CALLBACK_FUNCTION = Some(callback);
-    }
+pub fn set_license_callback<F>(closure: F) -> Result<(), LexActivatorError>
+where
+    F: Fn(LexActivatorCode) + Clone + Send + 'static,
+{
+    let mut callback_function = CALLBACK_FUNCTION.lock().unwrap();
+    callback_function.replace(Box::new(closure));
     let status: i32 = unsafe { SetLicenseCallback(wrapper) };
 
     if status == 0 {
@@ -361,6 +364,13 @@ pub fn set_license_callback(callback: CallbackType) -> Result<(), LexActivatorEr
     } else {
         return Err(LexActivatorError::from(status));
     }
+}
+
+/// Unset the current license closure callback.
+
+pub fn unset_license_callback() {
+    let mut callback_function = CALLBACK_FUNCTION.lock().unwrap();
+    *callback_function = None;
 }
 
 /// Sets the activation lease duration.
