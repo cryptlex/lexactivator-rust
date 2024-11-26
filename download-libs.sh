@@ -16,6 +16,10 @@ cp ./tmp/windows/libs/vc14/x64/LexActivator.lib ./libs/win32-x86_64/
 cp ./tmp/windows/libs/vc14/x86/LexActivator.dll ./libs/win32-x86/
 cp ./tmp/windows/libs/vc14/x86/LexActivator.lib ./libs/win32-x86/
 
+# Window ARM64
+cp ./tmp/windows/libs/vc17/arm64/LexActivator.dll ./libs/win32-arm64/
+cp ./tmp/windows/libs/vc17/arm64/LexActivator.lib ./libs/win32-arm64/
+
 mkdir -p tmp/macos
 MAC_FILE_NAME="LexActivator-Static-Mac.zip"
 curl -O ${BASE_URL}/${VERSION}/${MAC_FILE_NAME}

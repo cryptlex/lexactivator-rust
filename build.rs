@@ -45,6 +45,10 @@ fn set_lib_search_dir() -> () {
             // x86 Windows
             // TODO find MSVC Version
             print_link_search_path(cargo_manifest_dir, &["libs", "win32-x86"]);
+        }else if #[cfg(all(target_arch="aarch64", target_os="windows", target_env="msvc"))] {
+            // ARM64 Windows
+            // TODO find MSVC Version
+            print_link_search_path(cargo_manifest_dir, &["libs", "win32-arm64"]);
         } else {
             // TODO make this message more verbose
             // const TARGET_OS = env::var("CARGO_CFG_TARGET_OS").ok();
