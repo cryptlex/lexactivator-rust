@@ -2,7 +2,7 @@
 set -e
 
 BASE_URL=https://dl.cryptlex.com/downloads
-VERSION="v3.30.2";
+VERSION="v3.30.4";
 
 mkdir -p tmp/windows
 WINDOWS_FILE_NAME="LexActivator-Win.zip"
