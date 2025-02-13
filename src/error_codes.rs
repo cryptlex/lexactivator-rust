@@ -151,6 +151,10 @@ pub enum LexActivatorError {
     LA_E_USERS_LIMIT_REACHED = 103,
     /// OS user has changed since activation and the license is user-locked.
     LA_E_OS_USER = 104,
+    /// Invalid permission flag.
+    LA_E_INVALID_PERMISSION_FLAG = 105,
+    /// The free plan has reached its activation limit.
+    LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED = 106,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -233,6 +237,8 @@ impl From<i32> for LexActivatorError {
             102 => LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED,
             103 => LexActivatorError::LA_E_USERS_LIMIT_REACHED,
             104 => LexActivatorError::LA_E_OS_USER,
+            105 => LexActivatorError::LA_E_INVALID_PERMISSION_FLAG,
+            106 => LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED,
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -318,6 +324,8 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED => write!(f, "{} OIDC SSO is not enabled.", LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED as i32),
             LexActivatorError::LA_E_USERS_LIMIT_REACHED => write!(f, "{} The allowed users for this account has reached its limit.", LexActivatorError::LA_E_USERS_LIMIT_REACHED as i32),
             LexActivatorError::LA_E_OS_USER => write!(f, "{} OS user has changed since activation and the license is user-locked.", LexActivatorError::LA_E_OS_USER as i32),
+            LexActivatorError::LA_E_INVALID_PERMISSION_FLAG => write!(f, "{} Invalid permission flag.", LexActivatorError::LA_E_INVALID_PERMISSION_FLAG as i32),
+            LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED => write!(f, "{} The free plan has reached its activation limit.", LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED as i32),
         }
     }
 }
@@ -339,7 +347,7 @@ impl LexActivatorCode {
     pub fn from_i32(code: i32) -> Self {
         match code {
             0..=32 => LexActivatorCode::Status(LexActivatorStatus::from(code)),
-            40..=104 => LexActivatorCode::Error(LexActivatorError::from(code)),
+            40..=106 => LexActivatorCode::Error(LexActivatorError::from(code)),
             _ => LexActivatorCode::Error(LexActivatorError::LA_E_CLIENT), // Fallback to a general error
         }
     }
