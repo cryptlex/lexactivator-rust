@@ -104,6 +104,17 @@ pub struct UserLicense {
     pub metadata: Vec<Metadata>
 }
 
+/// Represents a feature entitlement with details about its value.
+#[derive(Debug, Deserialize)]
+pub struct FeatureEntitlement {
+    /// The name of the feature entitlement.
+    #[serde(rename = "featureName")]
+    pub feature_name: String,
+    /// The value of the feature entitlement.
+    #[serde(rename = "value")]
+    pub value: String,
+}
+
 /// Represents various permission flags.
 #[repr(u32)]
 pub enum PermissionFlags {
@@ -340,7 +351,10 @@ pub fn set_license_key(license_key: String) -> Result<(), LexActivatorError> {
 }
 
 /// Sets the license user credentials for activation.
-///
+/// 
+/// # Deprecated
+/// This function is deprecated. Use [`authenticate_user`] instead.
+/// 
 /// # Arguments
 ///
 /// * `email` - The email associated with the user.
@@ -749,6 +763,9 @@ pub fn get_product_metadata(key: String) -> Result<String, LexActivatorError> {
 
 /// Retrieves the name of the product version.
 ///
+/// # Deprecated
+/// This function is deprecated. Use [`get_license_entitlement_set_name`] instead.
+///
 /// # Returns
 ///
 /// Returns `Ok(String)` with the name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
@@ -778,30 +795,36 @@ pub fn get_product_version_name() -> Result<String, LexActivatorError> {
 
 /// Retrieves the display name of the product version.
 ///
-/// # Returns
+/// # Deprecated
+/// This function is deprecated. Use [`get_license_entitlement_set_display_name`] instead.
 ///
-/// Returns `Ok(String)` with the display name of the product version if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// # Returns
+/// Returns `Ok(String)` with the display name of the product version if it is retrieved successfully.
+/// If an error occurs, an `Err` containing the `LexActivatorError` is returned.
 
 pub fn get_product_version_display_name() -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let product_version_display_name: String;
+    
     #[cfg(windows)]
     {
         let mut buffer: [u16; LENGTH] = [0; LENGTH];
         status = unsafe { GetProductVersionDisplayName(buffer.as_mut_ptr(), LENGTH as c_uint) };
         product_version_display_name = utf16_to_string(&buffer);
     }
+
     #[cfg(not(windows))]
     {
         let mut buffer: [c_char; LENGTH] = [0; LENGTH];
         status = unsafe { GetProductVersionDisplayName(buffer.as_mut_ptr(), LENGTH as c_uint) };
         product_version_display_name = c_char_to_string(&buffer);
     }
+
     if status == 0 {
         Ok(product_version_display_name)
     } else {
-        return Err(LexActivatorError::from(status));
+        Err(LexActivatorError::from(status))
     }
 }
 
@@ -1326,6 +1349,142 @@ pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
             Ok(user_licenses)
         }
         
+    } else {
+        Err(LexActivatorError::from(status))
+    }
+}
+
+/// Retrieves the license entitlement set name.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the entitlement set name of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_entitlement_set_name() -> Result<String, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let license_entitlement_set_name: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetLicenseEntitlementSetName(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        license_entitlement_set_name = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetLicenseEntitlementSetName(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        license_entitlement_set_name = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        Ok(license_entitlement_set_name)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the entitlement set display name.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the entitlement set display name of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_entitlement_set_display_name() -> Result<String, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 256;
+    let license_entitlement_set_display_name: String;
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetLicenseEntitlementSetDisplayName(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        license_entitlement_set_display_name = utf16_to_string(&buffer);
+    }
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetLicenseEntitlementSetDisplayName(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        license_entitlement_set_display_name = c_char_to_string(&buffer);
+    }
+    if status == 0 {
+        Ok(license_entitlement_set_display_name)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the feature entitlements.
+///
+/// # Returns
+///
+/// Returns `Ok(Vec<FeatureEntitlement>)` with the feature entitlements of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+pub fn get_feature_entitlements() -> Result<Vec<FeatureEntitlement>, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 4096;
+    let feature_entitlements_json: String;
+
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        status = unsafe { GetFeatureEntitlementsInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        feature_entitlements_json = utf16_to_string(&buffer);
+    }
+    
+    #[cfg(not(windows))]
+    {
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetFeatureEntitlementsInternal(buffer.as_mut_ptr(), LENGTH as c_uint) };
+        feature_entitlements_json = c_char_to_string(&buffer);
+    }
+
+    if status == 0 {
+        if feature_entitlements_json.is_empty() {
+            Ok(Vec::new())
+        } else {
+            let feature_entitlements: Vec<FeatureEntitlement> = serde_json::from_str(&feature_entitlements_json).expect("Failed to parse JSON");
+            Ok(feature_entitlements)
+        }
+    } else {
+        Err(LexActivatorError::from(status))
+    }
+}
+
+/// Retrieves the feature entitlement.
+///
+/// # Arguments
+///
+/// * `name` - A `string` value representing the name of the feature entitlement.
+///
+/// # Returns
+///
+/// Returns `Ok(FeatureEntitlement)` with the feature entitlement of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+pub fn get_feature_entitlement(name: String) -> Result<FeatureEntitlement, LexActivatorError> {
+    let status: i32;
+    const LENGTH: usize = 4096;
+    let feature_entitlement_json: String;
+
+    #[cfg(windows)]
+    {
+        let mut buffer: [u16; LENGTH] = [0; LENGTH];
+        let c_name = to_utf16(name);
+        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr()) };
+        feature_entitlement_json = utf16_to_string(&buffer);
+    }
+    
+    #[cfg(not(windows))]
+    {
+        let c_name = string_to_cstring(name)?;
+        let mut buffer: [c_char; LENGTH] = [0; LENGTH];
+        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr()) };
+        feature_entitlement_json = c_char_to_string(&buffer);
+    }
+
+    if status == 0 {
+        if feature_entitlement_json.is_empty() {
+            Err(LexActivatorError::from(status))
+        } else {
+            let feature_entitlement: FeatureEntitlement = serde_json::from_str(&feature_entitlement_json).expect("Failed to parse JSON");
+            Ok(feature_entitlement)
+        }
     } else {
         Err(LexActivatorError::from(status))
     }

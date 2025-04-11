@@ -141,6 +141,8 @@ pub enum LexActivatorError {
     LA_E_SERVER = 91,
     /// Client error.
     LA_E_CLIENT = 92,
+    /// Invalid account ID.
+    LA_E_ACCOUNT_ID = 93,
     /// The user account has been temporarily locked for 5 mins due to 5 failed attempts.
     LA_E_LOGIN_TEMPORARILY_LOCKED = 100,
     /// Invalid authentication ID token.
@@ -155,6 +157,12 @@ pub enum LexActivatorError {
     LA_E_INVALID_PERMISSION_FLAG = 105,
     /// The free plan has reached its activation limit.
     LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED = 106,
+    /// The feature entitlements are invalid.
+    LA_E_FEATURE_ENTITLEMENTS_INVALID = 107,
+    /// The feature entitlement does not exist.
+    LA_E_FEATURE_ENTITLEMENT_NOT_FOUND = 108,
+    /// The entitlement set is not linked.
+    LA_E_ENTITLEMENT_SET_NOT_LINKED = 109,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -232,6 +240,7 @@ impl From<i32> for LexActivatorError {
             90 => LexActivatorError::LA_E_RATE_LIMIT,
             91 => LexActivatorError::LA_E_SERVER,
             92 => LexActivatorError::LA_E_CLIENT,
+            93 => LexActivatorError::LA_E_ACCOUNT_ID,
             100 => LexActivatorError::LA_E_LOGIN_TEMPORARILY_LOCKED,
             101 => LexActivatorError::LA_E_AUTHENTICATION_ID_TOKEN_INVALID,
             102 => LexActivatorError::LA_E_OIDC_SSO_NOT_ENABLED,
@@ -239,6 +248,9 @@ impl From<i32> for LexActivatorError {
             104 => LexActivatorError::LA_E_OS_USER,
             105 => LexActivatorError::LA_E_INVALID_PERMISSION_FLAG,
             106 => LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED,
+            107 => LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID,
+            108 => LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND,
+            109 => LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED,  
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -326,6 +338,10 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_OS_USER => write!(f, "{} OS user has changed since activation and the license is user-locked.", LexActivatorError::LA_E_OS_USER as i32),
             LexActivatorError::LA_E_INVALID_PERMISSION_FLAG => write!(f, "{} Invalid permission flag.", LexActivatorError::LA_E_INVALID_PERMISSION_FLAG as i32),
             LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED => write!(f, "{} The free plan has reached its activation limit.", LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED as i32),
+            LexActivatorError::LA_E_ACCOUNT_ID => write!(f, "{} Invalid account ID.", LexActivatorError::LA_E_ACCOUNT_ID as i32),
+            LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID => write!(f, "{} Invalid feature entitlements.", LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID as i32),
+            LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND => write!(f, "{} The feature entitlement does not exist.", LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND as i32),
+            LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED => write!(f, "{} No entitlement set is linked to the license.", LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED as i32),
         }
     }
 }
