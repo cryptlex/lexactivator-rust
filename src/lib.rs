@@ -1452,12 +1452,12 @@ pub fn get_feature_entitlements() -> Result<Vec<FeatureEntitlement>, LexActivato
 ///
 /// # Arguments
 ///
-/// * `name` - A `string` value representing the name of the feature entitlement.
+/// * `feature_name` - A `string` value representing the name of the feature entitlement.
 ///
 /// # Returns
 ///
 /// Returns `Ok(FeatureEntitlement)` with the feature entitlement of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
-pub fn get_feature_entitlement(name: String) -> Result<FeatureEntitlement, LexActivatorError> {
+pub fn get_feature_entitlement(feature_name: String) -> Result<FeatureEntitlement, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 4096;
     let feature_entitlement_json: String;
@@ -1466,15 +1466,15 @@ pub fn get_feature_entitlement(name: String) -> Result<FeatureEntitlement, LexAc
     {
         let mut buffer: [u16; LENGTH] = [0; LENGTH];
         let c_name = to_utf16(name);
-        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr()) };
+        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr(), LENGTH as c_uint) };
         feature_entitlement_json = utf16_to_string(&buffer);
     }
     
     #[cfg(not(windows))]
     {
-        let c_name = string_to_cstring(name)?;
+        let c_name = string_to_cstring(feature_name)?;
         let mut buffer: [c_char; LENGTH] = [0; LENGTH];
-        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr()) };
+        status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr(), LENGTH as c_uint) };
         feature_entitlement_json = c_char_to_string(&buffer);
     }
 
