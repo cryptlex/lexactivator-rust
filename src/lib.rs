@@ -1459,7 +1459,7 @@ pub fn get_feature_entitlements() -> Result<Vec<FeatureEntitlement>, LexActivato
 /// Returns `Ok(FeatureEntitlement)` with the feature entitlement of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 pub fn get_feature_entitlement(feature_name: String) -> Result<FeatureEntitlement, LexActivatorError> {
     let status: i32;
-    const LENGTH: usize = 4096;
+    const LENGTH: usize = 1024;
     let feature_entitlement_json: String;
 
     #[cfg(windows)]
