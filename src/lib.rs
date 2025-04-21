@@ -107,10 +107,10 @@ pub struct UserLicense {
 /// Represents a feature entitlement with details about its value.
 #[derive(Debug, Deserialize)]
 pub struct FeatureEntitlement {
-    /// The name of the feature entitlement.
+    /// The name of the feature. 
     #[serde(rename = "featureName")]
     pub feature_name: String,
-    /// The value of the feature entitlement.
+    /// The value of the feature.
     #[serde(rename = "value")]
     pub value: String,
 }
@@ -1354,7 +1354,7 @@ pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
     }
 }
 
-/// Retrieves the license entitlement set name.
+/// Retrieves the entitlement set name.
 ///
 /// # Returns
 ///
@@ -1452,7 +1452,7 @@ pub fn get_feature_entitlements() -> Result<Vec<FeatureEntitlement>, LexActivato
 ///
 /// # Arguments
 ///
-/// * `feature_name` - A `string` value representing the name of the feature entitlement.
+/// * `feature_name` - A `string` value representing the name of the feature.
 ///
 /// # Returns
 ///
