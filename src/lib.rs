@@ -833,6 +833,9 @@ pub fn get_product_version_display_name() -> Result<String, LexActivatorError> {
 /// # Arguments
 ///
 /// * `name` - The name of the feature flag.
+/// 
+/// # Deprecated
+/// This function is deprecated. Use [`get_feature_entitlement`] instead.
 ///
 /// # Returns
 ///
