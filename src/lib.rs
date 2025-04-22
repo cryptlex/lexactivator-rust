@@ -1354,7 +1354,7 @@ pub fn get_user_licenses() -> Result<Vec<UserLicense>, LexActivatorError> {
     }
 }
 
-/// Retrieves the entitlement set name.
+/// Retrieves the license entitlement set name.
 ///
 /// # Returns
 ///
@@ -1383,7 +1383,7 @@ pub fn get_license_entitlement_set_name() -> Result<String, LexActivatorError> {
     }
 }
 
-/// Retrieves the entitlement set display name.
+/// Retrieves the license entitlement set display name.
 ///
 /// # Returns
 ///
@@ -1479,12 +1479,8 @@ pub fn get_feature_entitlement(feature_name: String) -> Result<FeatureEntitlemen
     }
 
     if status == 0 {
-        if feature_entitlement_json.is_empty() {
-            Err(LexActivatorError::from(status))
-        } else {
-            let feature_entitlement: FeatureEntitlement = serde_json::from_str(&feature_entitlement_json).expect("Failed to parse JSON");
-            Ok(feature_entitlement)
-        }
+        let feature_entitlement: FeatureEntitlement = serde_json::from_str(&feature_entitlement_json).expect("Failed to parse JSON");
+        Ok(feature_entitlement)
     } else {
         Err(LexActivatorError::from(status))
     }
