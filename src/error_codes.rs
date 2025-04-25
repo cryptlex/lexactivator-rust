@@ -157,12 +157,14 @@ pub enum LexActivatorError {
     LA_E_INVALID_PERMISSION_FLAG = 105,
     /// The free plan has reached its activation limit.
     LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED = 106,
-    /// The feature entitlements are invalid.
+    /// Invalid feature entitlements.
     LA_E_FEATURE_ENTITLEMENTS_INVALID = 107,
     /// The feature entitlement does not exist.
     LA_E_FEATURE_ENTITLEMENT_NOT_FOUND = 108,
     /// No entitlement set is linked to the license.
     LA_E_ENTITLEMENT_SET_NOT_LINKED = 109,
+    /// The license cannot be activated before its effective date.
+    LA_E_LICENSE_NOT_EFFECTIVE = 110,
 }
 
 impl From<i32> for LexActivatorStatus {
@@ -250,7 +252,8 @@ impl From<i32> for LexActivatorError {
             106 => LexActivatorError::LA_E_FREE_PLAN_ACTIVATION_LIMIT_REACHED,
             107 => LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID,
             108 => LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND,
-            109 => LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED,  
+            109 => LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED,
+            110 => LexActivatorError::LA_E_LICENSE_NOT_EFFECTIVE,
             _ => todo!(),
             // Add more mappings as needed
         }
@@ -342,6 +345,7 @@ impl fmt::Display for LexActivatorError {
             LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID => write!(f, "{} Invalid feature entitlements.", LexActivatorError::LA_E_FEATURE_ENTITLEMENTS_INVALID as i32),
             LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND => write!(f, "{} The feature entitlement does not exist.", LexActivatorError::LA_E_FEATURE_ENTITLEMENT_NOT_FOUND as i32),
             LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED => write!(f, "{} No entitlement set is linked to the license.", LexActivatorError::LA_E_ENTITLEMENT_SET_NOT_LINKED as i32),
+            LexActivatorError::LA_E_LICENSE_NOT_EFFECTIVE => write!(f, "{} The license cannot be activated before its effective date.", LexActivatorError::LA_E_LICENSE_NOT_EFFECTIVE as i32),
         }
     }
 }
@@ -363,7 +367,7 @@ impl LexActivatorCode {
     pub fn from_i32(code: i32) -> Self {
         match code {
             0..=32 => LexActivatorCode::Status(LexActivatorStatus::from(code)),
-            40..=106 => LexActivatorCode::Error(LexActivatorError::from(code)),
+            40..=110 => LexActivatorCode::Error(LexActivatorError::from(code)),
             _ => LexActivatorCode::Error(LexActivatorError::LA_E_CLIENT), // Fallback to a general error
         }
     }
