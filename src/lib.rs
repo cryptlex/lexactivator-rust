@@ -110,6 +110,9 @@ pub struct FeatureEntitlement {
     /// The name of the feature. 
     #[serde(rename = "featureName")]
     pub feature_name: String,
+    /// The display name of the feature.
+    #[serde(rename = "featureDisplayName")]
+    pub feature_display_name: String,
     /// The value of the feature.
     #[serde(rename = "value")]
     pub value: String,
