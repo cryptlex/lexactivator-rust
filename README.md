@@ -13,7 +13,7 @@ In your Cargo.toml:
 
 ```toml
 [dependencies]
-lexactivator = { version = "3.24.4"}
+lexactivator = { version = "3.32.0"}
 ```
 
 Simple example usage:
