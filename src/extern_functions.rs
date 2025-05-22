@@ -70,6 +70,7 @@ extern "C" {
     pub fn GetLicenseTotalDeactivations(totalDeactivations: *mut c_uint) -> c_int;
     pub fn GetLicenseCreationDate(creationDate: *mut c_uint) -> c_int;
     pub fn GetLicenseActivationDate(activationDate: *mut c_uint) -> c_int;
+    pub fn GetActivationLastSyncedDate(lastSyncedDate: *mut c_uint) -> c_int;
     pub fn GetLicenseExpiryDate(expiryDate: *mut c_uint) -> c_int;
     pub fn GetLicenseMaintenanceExpiryDate(maintenanceExpiryDate: *mut c_uint) -> c_int;
     pub fn GetLicenseMaxAllowedReleaseVersion(maxAllowedReleaseVersion: strtype!(), length: c_uint) -> c_int;

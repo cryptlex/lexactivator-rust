@@ -1046,6 +1046,24 @@ pub fn get_license_activation_date() -> Result<u32, LexActivatorError> {
     }
 }
 
+/// Retrieves the activation last synced date timestamp.
+/// 
+/// Initially, this timestamp matches the activation creation date, and then updates with each successful server sync.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the activation last synced date timestamp if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_activation_last_synced_date() -> Result<u32, LexActivatorError> {
+    let mut last_synced_date: c_uint = 0;
+    let status = unsafe { GetActivationLastSyncedDate(&mut last_synced_date) };
+    if status == 0 {
+        Ok(last_synced_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the expiry date of the license.
 ///
 /// # Returns
