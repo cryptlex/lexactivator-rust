@@ -35,14 +35,6 @@ jobs:
           git commit -m "chore(package version): updated version" | exit 0
           git tag ${{ github.event.inputs.packageVersion }}
           git push & git push --tags
-  
-      - name: Update Library Version in download script
-        run: |
-          sed -i '/VERSION=/!b;cVERSION=\"v${{ github.event.inputs.libraryVersion }}";' ./download-libs.sh
-
-      - name: Download libraries
-        run: |
-          ./download-libs.sh
 
       - name: Build
         run: |
