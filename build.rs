@@ -11,15 +11,16 @@ use zip;
 /// x86_64-unknown-linux-musl, aarch64-unknown-linux-musl
 
 fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
-    let cargo_manifest_dir = env::var("CARGO_MANIFEST_DIR")?;
-    let libs_dir = PathBuf::from(&cargo_manifest_dir).join("libs");
+    let out_dir = env::var("OUT_DIR")?;
+    let libs_dir = PathBuf::from(&out_dir).join("libs");
+    
     
     // Create libs directory if it doesn't exist
     if !libs_dir.exists() {
         fs::create_dir_all(&libs_dir)?;
     }
 
-    let version = "v3.33.0";
+    let version = "v3.34.2";
     let base_url = "https://dl.cryptlex.com/downloads";
     
     // Determine which library to download based on target
@@ -51,7 +52,7 @@ fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
     let (zip_filename, lib_path) = ("LexActivator-Win.zip", "vc14/x86/LexActivator.lib");
 
     // Create target-specific directory
-    let target_dir = get_target_lib_dir(&cargo_manifest_dir);
+    let target_dir = get_target_lib_dir(&out_dir);
     if !target_dir.exists() {
         fs::create_dir_all(&target_dir)?;
     }
@@ -68,7 +69,7 @@ fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
         
         // Download the library
         let download_url = format!("{}/{}/{}", base_url, version, zip_filename);
-        let temp_dir = PathBuf::from(&cargo_manifest_dir).join("tmp");
+        let temp_dir = PathBuf::from(&out_dir).join("tmp");
         if !temp_dir.exists() {
             fs::create_dir_all(&temp_dir)?;
         }
@@ -88,8 +89,8 @@ fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn get_target_lib_dir(cargo_manifest_dir: &str) -> PathBuf {
-    let mut path = PathBuf::from(cargo_manifest_dir);
+fn get_target_lib_dir(out_dir: &str) -> PathBuf {
+    let mut path = PathBuf::from(out_dir);
     path.extend(&["libs"]);
     
     cfg_if::cfg_if! {
@@ -144,7 +145,7 @@ fn extract_library(zip_path: &PathBuf, lib_path: &str, target_dir: &PathBuf) -> 
 }
 
 fn set_lib_search_dir() -> () {
-    let cargo_manifest_dir: String = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let out_dir: String = env::var("OUT_DIR").unwrap();
 
     fn print_link_search_path(base_dir: String, extension_path: &[&str]) {
         let mut path = PathBuf::from(base_dir.clone());
@@ -155,33 +156,33 @@ fn set_lib_search_dir() -> () {
     cfg_if::cfg_if! {
         if #[cfg(all(target_arch="x86_64", target_os="macos"))] {
             // Intel Macs
-            print_link_search_path(cargo_manifest_dir, &["libs", "darwin-x86_64"]);
+            print_link_search_path(out_dir, &["libs", "darwin-x86_64"]);
         } else if #[cfg(all(target_arch="aarch64", target_os="macos"))] {
             // Apple Silicon Macs
-            print_link_search_path(cargo_manifest_dir, &["libs", "darwin-aarch64"]);
+            print_link_search_path(out_dir, &["libs", "darwin-aarch64"]);
         } else if #[cfg(all(target_arch="aarch64", target_os="linux", target_env="gnu"))] {
             // ARM64 Linux GNU
-            print_link_search_path(cargo_manifest_dir, &["libs", "linux-aarch64"]);
+            print_link_search_path(out_dir, &["libs", "linux-aarch64"]);
         } else if #[cfg(all(target_arch="x86_64", target_os="linux", target_env="gnu"))] {
             // x86_64 Linux GNU
-            print_link_search_path(cargo_manifest_dir, &["libs", "linux-x86_64"]);
+            print_link_search_path(out_dir, &["libs", "linux-x86_64"]);
         } else if #[cfg(all(target_arch="x86", target_os="linux", target_env="gnu"))] {
             // x86 Linux GNU
-            print_link_search_path(cargo_manifest_dir, &["libs", "linux-x86"]);
+            print_link_search_path(out_dir, &["libs", "linux-x86"]);
         } else if #[cfg(all(target_arch="x86_64", target_os="linux", target_env="musl"))] {
             // x86_64 Linux MUSL
-            print_link_search_path(cargo_manifest_dir, &["libs", "musl-x86_64"]);
+            print_link_search_path(out_dir, &["libs", "musl-x86_64"]);
         } else if #[cfg(all(target_arch="aarch64", target_os="linux", target_env="musl"))] {
             // ARM64 Linux MUSL
-            print_link_search_path(cargo_manifest_dir, &["libs", "musl-aarch64"]);
+            print_link_search_path(out_dir, &["libs", "musl-aarch64"]);
         } else if #[cfg(all(target_arch="x86_64", target_os="windows", target_env="msvc"))] {
             // x86_64 Windows
             // TODO find MSVC Version
-            print_link_search_path(cargo_manifest_dir, &["libs", "win32-x86_64"]);
+            print_link_search_path(out_dir, &["libs", "win32-x86_64"]);
         } else if #[cfg(all(target_arch="x86", target_os="windows", target_env="msvc"))] {
             // x86 Windows
             // TODO find MSVC Version
-            print_link_search_path(cargo_manifest_dir, &["libs", "win32-x86"]);
+            print_link_search_path(out_dir, &["libs", "win32-x86"]);
         } else {
             // TODO make this message more verbose
             // const TARGET_OS = env::var("CARGO_CFG_TARGET_OS").ok();
