@@ -1489,7 +1489,7 @@ pub fn get_feature_entitlement(feature_name: String) -> Result<FeatureEntitlemen
     #[cfg(windows)]
     {
         let mut buffer: [u16; LENGTH] = [0; LENGTH];
-        let c_name = to_utf16(name);
+        let c_name = to_utf16(feature_name);
         status = unsafe { GetFeatureEntitlementInternal(c_name.as_ptr(), buffer.as_mut_ptr(), LENGTH as c_uint) };
         feature_entitlement_json = utf16_to_string(&buffer);
     }
