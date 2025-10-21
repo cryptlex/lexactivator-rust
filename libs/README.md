@@ -1,1 +1,0 @@
-This folder contains static libraries downloaded from Cryptlex servers. This is done using the download-libs.sh file automatically by a CI job before pushing to crates.io.
