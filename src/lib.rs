@@ -122,6 +122,9 @@ pub struct FeatureEntitlement {
     /// The value of the feature.
     #[serde(rename = "value")]
     pub value: String,
+    /// Timestamp when the license feature entitlement will expire.
+    #[serde(rename = "expiresAt")]
+    pub expires_at : i64,
 }
 
 /// Represents various permission flags.
