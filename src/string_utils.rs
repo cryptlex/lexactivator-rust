@@ -1,16 +1,14 @@
-use std::ffi::{ c_char, CStr, CString, NulError};
+use std::ffi::{c_char, CStr, CString, NulError};
 
 // --------------------------- String operations ------------------------
 
-pub fn string_to_cstring(mut rust_string: String) -> Result<CString, NulError> {
-    if rust_string.contains('\0') {
-        rust_string = rust_string.replace('\0', "");
-    }
+pub fn string_to_cstring(rust_string: &str) -> Result<CString, NulError> {
+    let rust_string = rust_string.replace('\0', "");
     let c_string = CString::new(rust_string)?;
     Ok(c_string)
 }
 
-pub fn to_utf16(rust_string: String) -> Vec<u16> {
+pub fn to_utf16(rust_string: &str) -> Vec<u16> {
     let utf16: Vec<u16> = rust_string
         .encode_utf16()
         .chain(std::iter::once(0))

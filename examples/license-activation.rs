@@ -3,9 +3,9 @@ use std::io::{self, BufRead}; // for user input (pause)
 use lexactivator::*;
 
 fn main() {
-    let product_data: String = "Product.dat_content".to_string();
-    let product_id: String = "Product_id".to_string();
-    let license_key: String = "License_key".to_string();
+    let product_data = "Product.dat_content";
+    let product_id = "Product_id";
+    let license_key = "License_key";
 
     let mut result: Result<(), LexActivatorError> = lexactivator::set_product_data(product_data);
     println!("SetProductData: {:?}", result);

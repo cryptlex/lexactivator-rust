@@ -149,7 +149,7 @@ pub enum PermissionFlags {
 /// Returns `Ok(())` if the product data is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
 
-pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
+pub fn set_product_data(product_data: &str) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -175,7 +175,7 @@ pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
 /// 
 /// # Arguments
 ///
-/// * `product_id` - A `string` value representing the unique product id of your application as mentioned
+/// * `product_id` - A `&str` value representing the unique product id of your application as mentioned
 ///                  on the product page in the dashboard.
 ///
 /// * `permission_flags` - Depending on your application's requirements, choose one of 
@@ -196,7 +196,7 @@ pub fn set_product_data(product_data: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the data directory is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> Result<(), LexActivatorError> {
+pub fn set_product_id(product_id: &str, permission_flags: PermissionFlags) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_flags: c_uint = permission_flags as u32 as c_uint;
     #[cfg(windows)]
@@ -223,14 +223,14 @@ pub fn set_product_id(product_id: String, permission_flags: PermissionFlags) -> 
 /// 
 /// # Arguments
 /// 
-/// * `data_dir` - A `string` value representing the absolute path of the directory
+/// * `data_dir` - A `&str` value representing the absolute path of the directory
 ///               where LexActivator should store the activation data.
 /// 
 /// # Returns
 /// 
 /// Returns `Ok(())` if the data directory is set successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_data_directory(data_dir: String) -> Result<(), LexActivatorError> {
+pub fn set_data_directory(data_dir: &str) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -297,13 +297,13 @@ pub fn set_cache_mode(mode: bool) -> Result<(), LexActivatorError> {
 /// 
 /// # Arguments
 /// 
-/// * `device_fingerprint` - A `string` value representing the custom device fingerprint of the user's device.
+/// * `device_fingerprint` - A `&str` value representing the custom device fingerprint of the user's device.
 /// 
 /// # Returns
 /// 
 /// Returns `Ok(())` if the custom device fingerprint is set successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), LexActivatorError> {
+pub fn set_custom_device_fingerprint(device_fingerprint: &str) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -333,7 +333,7 @@ pub fn set_custom_device_fingerprint(device_fingerprint: String) -> Result<(), L
 ///
 /// Returns `Ok(())` if the license key is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
  
-pub fn set_license_key(license_key: String) -> Result<(), LexActivatorError> {
+pub fn set_license_key(license_key: &str) -> Result<(), LexActivatorError> {
 
     let status: i32;
     #[cfg(windows)]
@@ -367,7 +367,7 @@ pub fn set_license_key(license_key: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the license user credentials are set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_license_user_credential(email: String, password: String) -> Result<(), LexActivatorError> {
+pub fn set_license_user_credential(email: &str, password: &str) -> Result<(), LexActivatorError> {
     
     let status: i32;
     #[cfg(windows)]
@@ -458,7 +458,7 @@ pub fn set_activation_lease_duration(lease_duration: i64) -> Result<(), LexActiv
 ///
 /// Returns `Ok(())` if the activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActivatorError>  {
+pub fn set_activation_metadata(key: &str, value: &str) -> Result<(), LexActivatorError>  {
     let status: i32;
     #[cfg(windows)]
     {
@@ -490,7 +490,7 @@ pub fn set_activation_metadata(key: String, value: String) -> Result<(), LexActi
 ///
 /// Returns `Ok(())` if the trial activation metadata is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), LexActivatorError> {
+pub fn set_trial_activation_metadata(key: &str, value: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -521,7 +521,7 @@ pub fn set_trial_activation_metadata(key: String, value: String) -> Result<(), L
 ///
 /// Returns `Ok(())` if the release version is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_version(version: String) -> Result<(), LexActivatorError> {
+pub fn set_release_version(version: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -570,7 +570,7 @@ pub fn set_release_published_date(release_published_date: u32) -> Result<(), Lex
 ///
 /// Returns `Ok(())` if the release platform is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_platform(platform: String) -> Result<(), LexActivatorError> {
+pub fn set_release_platform(platform: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -599,7 +599,7 @@ pub fn set_release_platform(platform: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the release channel is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_release_channel(channel: String) -> Result<(), LexActivatorError> {
+pub fn set_release_channel(channel: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -629,7 +629,7 @@ pub fn set_release_channel(channel: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the offline activation request meter attribute uses are set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i32) -> Result<(), LexActivatorError>{
+pub fn set_offline_activation_request_meter_attribute_uses(name: &str, uses: i32) -> Result<(), LexActivatorError>{
     let status: i32;
     let c_uses: c_uint = uses as c_uint;
     #[cfg(windows)]
@@ -659,7 +659,7 @@ pub fn set_offline_activation_request_meter_attribute_uses(name: String, uses: i
 ///
 /// Returns `Ok(())` if the network proxy is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorError> {
+pub fn set_network_proxy(proxy: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -688,7 +688,7 @@ pub fn set_network_proxy(proxy: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the Cryptlex host is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorError> {
+pub fn set_cryptlex_host(host: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -717,7 +717,7 @@ pub fn set_cryptlex_host(host: String) -> Result<(), LexActivatorError> {
 ///
 /// Returns `Ok(())` if the two_factor_authentication_code is set successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn set_two_factor_authentication_code(two_factor_authentication_code: String) -> Result<(), LexActivatorError> {
+pub fn set_two_factor_authentication_code(two_factor_authentication_code: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -738,7 +738,7 @@ pub fn set_two_factor_authentication_code(two_factor_authentication_code: String
 
 // ------------------- Getter Functions --------------------
 
-pub fn get_product_metadata(key: String) -> Result<String, LexActivatorError> {
+pub fn get_product_metadata(key: &str) -> Result<String, LexActivatorError> {
     
     let status: i32;
     const LENGTH: usize = 256;
@@ -844,10 +844,10 @@ pub fn get_product_version_display_name() -> Result<String, LexActivatorError> {
 ///
 /// Returns `Ok(ProductVersionFeatureFlag)` with the feature flag information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFeatureFlag, LexActivatorError> {
+pub fn get_product_version_feature_flag(name: &str) -> Result<ProductVersionFeatureFlag, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
-    let feature_name: String = name.clone();
+    let feature_name: String = name.into();
     let data: String;
     let mut c_enabled: c_uint = 0;
     #[cfg(windows)]
@@ -886,7 +886,7 @@ pub fn get_product_version_feature_flag(name: String) -> Result<ProductVersionFe
 ///
 /// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_metadata(key: String) -> Result<String, LexActivatorError> {
+pub fn get_license_metadata(key: &str) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let license_metadata: String;
@@ -921,9 +921,9 @@ pub fn get_license_metadata(key: String) -> Result<String, LexActivatorError> {
 ///
 /// Returns `Ok(LicenseMeterAttribute)` with the meter attribute information if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_meterattribute(name: String) -> Result<LicenseMeterAttribute, LexActivatorError> {
+pub fn get_license_meterattribute(name: &str) -> Result<LicenseMeterAttribute, LexActivatorError> {
     let status: i32;
-    let meter_attribute_name: String = name.clone();
+    let meter_attribute_name: String = name.into();
     let mut c_allowed_uses: c_longlong = 0;
     let mut c_total_uses: c_ulonglong = 0;
     let mut c_gross_uses: c_ulonglong = 0;
@@ -1251,7 +1251,7 @@ pub fn get_license_user_company() -> Result<String, LexActivatorError> {
 ///
 /// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_license_user_metadata(key: String) -> Result<String, LexActivatorError> {
+pub fn get_license_user_metadata(key: &str) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let user_metadata: String;
@@ -1476,12 +1476,12 @@ pub fn get_feature_entitlements() -> Result<Vec<FeatureEntitlement>, LexActivato
 ///
 /// # Arguments
 ///
-/// * `feature_name` - A `string` value representing the name of the feature.
+/// * `feature_name` - A `&str` value representing the name of the feature.
 ///
 /// # Returns
 ///
 /// Returns `Ok(FeatureEntitlement)` with the feature entitlement of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
-pub fn get_feature_entitlement(feature_name: String) -> Result<FeatureEntitlement, LexActivatorError> {
+pub fn get_feature_entitlement(feature_name: &str) -> Result<FeatureEntitlement, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 1024;
     let feature_entitlement_json: String;
@@ -1578,7 +1578,7 @@ pub fn get_activation_id() -> Result<String, LexActivatorError> {
 ///
 /// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_activation_metadata(key: String) -> Result<String, LexActivatorError> {
+pub fn get_activation_metadata(key: &str) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let activation_metadata: String;
@@ -1651,7 +1651,7 @@ pub fn get_activation_mode() -> Result<ActivationMode, LexActivatorError> {
 ///
 /// Returns `Ok(u32)` with the number of uses of the metered attribute if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_activation_meter_attribute_uses(name: String) -> Result<u32, LexActivatorError> {
+pub fn get_activation_meter_attribute_uses(name: &str) -> Result<u32, LexActivatorError> {
     let status: i32;
     let mut count: c_uint = 0;
     #[cfg(windows)]
@@ -1698,7 +1698,7 @@ pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorErr
 ///
 /// Returns `Ok(String)` with the metadata value if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn get_trial_activation_metadata(key: String) -> Result<String, LexActivatorError> {
+pub fn get_trial_activation_metadata(key: &str) -> Result<String, LexActivatorError> {
     let status: i32;
     const LENGTH: usize = 256; // Set the appropriate buffer length
     let trial_activation_metadata: String;
@@ -1830,7 +1830,7 @@ pub fn get_library_version() -> Result<String, LexActivatorError> {
 ///
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn authenticate_user(email: String, password: String) -> Result<(), LexActivatorError> {
+pub fn authenticate_user(email: &str, password: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1861,7 +1861,7 @@ pub fn authenticate_user(email: String, password: String) -> Result<(), LexActiv
 ///
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the authentication is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn authenticate_user_with_id_token(id_token: String) -> Result<(), LexActivatorError> {
+pub fn authenticate_user_with_id_token(id_token: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1909,7 +1909,7 @@ pub fn activate_license() -> Result<LexActivatorStatus, LexActivatorError> {
 /// 
 /// Returns `Ok(())` if the license activation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
+pub fn activate_license_offline(file_path: &str) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1940,7 +1940,7 @@ pub fn activate_license_offline(file_path: String) -> Result<LexActivatorStatus,
 ///
 /// Returns `Ok(())` if the offline activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_activation_request(file_path: String) -> Result<(), LexActivatorError> {
+pub fn generate_offline_activation_request(file_path: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -1986,7 +1986,7 @@ pub fn deactivate_license() -> Result<LexActivatorStatus, LexActivatorError> {
 ///
 /// Returns `Ok(())` if the offline deactivation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_deactivation_request(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
+pub fn generate_offline_deactivation_request(file_path: &str) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -2079,7 +2079,7 @@ pub fn activate_trial() -> Result<LexActivatorStatus, LexActivatorError> {
 /// 
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial has started successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatus, LexActivatorError> {
+pub fn activate_trial_offline(file_path: &str) -> Result<LexActivatorStatus, LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -2109,7 +2109,7 @@ pub fn activate_trial_offline(file_path: String) -> Result<LexActivatorStatus, L
 /// 
 /// Returns `Ok(())` if the offline trial activation request file generation is successful. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn generate_offline_trial_activation_request(file_path: String) -> Result<(), LexActivatorError> {
+pub fn generate_offline_trial_activation_request(file_path: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
@@ -2226,7 +2226,7 @@ pub fn extend_local_trial(trial_extension_length: u32) -> Result<LexActivatorSta
 /// 
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was incremented successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -> Result<(), LexActivatorError> {
+pub fn increment_activation_meter_attribute_uses(name: &str, increment: u32) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_increment: c_uint = increment as c_uint;
     #[cfg(windows)]
@@ -2257,7 +2257,7 @@ pub fn increment_activation_meter_attribute_uses(name: String, increment: u32) -
 /// 
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was decremented successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
-pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -> Result<(), LexActivatorError> {
+pub fn decrement_activation_meter_attribute_uses(name: &str, decrement: u32) -> Result<(), LexActivatorError> {
     let status: i32;
     let c_decrement: c_uint = decrement as c_uint;
     #[cfg(windows)]
@@ -2287,7 +2287,7 @@ pub fn decrement_activation_meter_attribute_uses(name: String, decrement: u32) -
 /// 
 /// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the meter attribute uses was reset successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned. 
 
-pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActivatorError> {
+pub fn reset_activation_meter_attribute_uses(name: &str) -> Result<(), LexActivatorError> {
     let status: i32;
     #[cfg(windows)]
     {
