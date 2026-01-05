@@ -3,10 +3,6 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      libraryVersion:
-        description: 'Library Version'
-        required: true
-        default: ''
       packageVersion:
         description: 'Package Version'
         required: true
@@ -16,7 +12,6 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     env:
-      LIBRARY_VERSION: ${{ github.event.inputs.libraryVersion }}
       PACKAGE_VERSION: ${{ github.event.inputs.packageVersion }}
 
     steps:
@@ -43,10 +38,14 @@ jobs:
           add-paths: |
             ./Cargo.toml
 
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ci/${{ env.PACKAGE_VERSION }}
+
       - name: Create tag
         run: |
-          git fetch origin ci/${{ env.PACKAGE_VERSION }}
-          git tag ${{ env.PACKAGE_VERSION }} origin/ci/${{ env.PACKAGE_VERSION }} || echo "Tag exists"
+          git tag ${{ env.PACKAGE_VERSION }} || echo "Tag exists"
           git push origin ${{ env.PACKAGE_VERSION }} || true
 
       - name: Build
