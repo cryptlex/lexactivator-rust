@@ -20,7 +20,7 @@ fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
         fs::create_dir_all(&libs_dir)?;
     }
 
-    let version = "v3.35.1";
+    let version = "v3.38.0";
     let base_url = "https://dl.cryptlex.com/downloads";
     
     // Determine which library to download based on target
