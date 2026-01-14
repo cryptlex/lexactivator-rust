@@ -2318,7 +2318,7 @@ pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActi
 ///
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if migration succeeds , If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if migration succeeds, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
 
 pub fn migrate_to_system_wide_activation(old_permission_flag: PermissionFlags) -> Result<LexActivatorStatus, LexActivatorError> {
     let c_old_permission_flag: c_uint = old_permission_flag as c_uint;
@@ -2346,6 +2346,5 @@ pub fn reset() -> Result<(), LexActivatorError> {
         Ok(())
     } else {
         return Err(LexActivatorError::from(status));
-
     }
 }
