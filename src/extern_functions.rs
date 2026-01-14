@@ -119,5 +119,6 @@ extern "C" {
     pub fn IncrementActivationMeterAttributeUses(name: cstrtype!(), increment: c_uint) -> c_int;
     pub fn DecrementActivationMeterAttributeUses(name: cstrtype!(), decrement: c_uint) -> c_int;
     pub fn ResetActivationMeterAttributeUses(name: cstrtype!()) -> c_int;
+    pub fn MigrateToSystemWideActivation(oldPermissionFlag: c_uint) -> c_int;
     pub fn Reset() -> c_int;
 }
