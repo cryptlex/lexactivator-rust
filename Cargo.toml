@@ -24,9 +24,6 @@ cfg-if = "1.0.0"
 ureq = "2.12.1"
 zip = "3.0.0"
 
-[dependencies.time]
-version = ">=0.3.40, <=0.3.45"
-
 [[example]]
 name = "license-activation"
 crate-type = ["bin"]
