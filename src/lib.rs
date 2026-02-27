@@ -1688,6 +1688,23 @@ pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorErr
     }
 }
 
+/// Retrieves the error code that caused the activation data to be cleared.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the error code that caused the activation data to be cleared if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_last_activation_error() -> Result<u32, LexActivatorError> {
+    let status: i32;
+    let mut error_code: c_uint = 0;
+    status = unsafe { GetLastActivationError(&mut error_code) };
+    if status == 0 {
+        Ok(error_code)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the metadata value associated with the specified key for the trial activation.
 ///
 /// # Arguments
