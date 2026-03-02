@@ -97,6 +97,12 @@ pub struct UserLicense {
     pub allowed_deactivations: i64,
     /// The license key.
     pub key: String,
+    /// Total number of activations for the license.
+    #[serde(rename = "totalActivations")]
+    pub total_activations: u32,
+    /// Total number of deactivations for the license.
+    #[serde(rename = "totalDeactivations")]
+    pub total_deactivations: u32,
     /// The license type.
     #[serde(rename = "type")]
     pub license_type: String,
@@ -116,6 +122,9 @@ pub struct FeatureEntitlement {
     /// The value of the feature.
     #[serde(rename = "value")]
     pub value: String,
+    /// Timestamp when the license feature entitlement will expire.
+    #[serde(rename = "expiresAt")]
+    pub expires_at : i64,
 }
 
 /// Represents various permission flags.
