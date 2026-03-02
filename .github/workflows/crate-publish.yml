@@ -3,18 +3,21 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      libraryVersion:
-        description: 'Library Version'
-        required: true
-        default: ''
       packageVersion:
         description: 'Package Version'
+        required: true
+        default: ''
+      libraryVersion:
+        description: 'Library Version'
         required: true
         default: ''
 
 jobs:
   update-version:
     runs-on: ubuntu-latest
+    env:
+      PACKAGE_VERSION: ${{ github.event.inputs.packageVersion }}
+
     steps:
           
       - name: Checkout code
@@ -26,15 +29,30 @@ jobs:
       - name: Update Package Version
         run: |
           sed -i '0,/version =/{s/version =.*/version = "${{ github.event.inputs.packageVersion }}"/;}' Cargo.toml
+          sed -i 's/let version = \"v.*\";/let version = \"v${{ github.event.inputs.libraryVersion }}\";/' build.rs
 
-      - name: Commit, Tag and Push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: ci/${{ env.PACKAGE_VERSION }}
+          title: "chore: bump package to version ${{ env.PACKAGE_VERSION }}"
+          commit-message: "chore(package version): updated version"
+          body: |
+            Automated package version bump.
+          base: main
+          add-paths: |
+            ./Cargo.toml
+            ./build.rs
+
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ci/${{ env.PACKAGE_VERSION }}
+
+      - name: Create tag
         run: |
-          git add Cargo.toml
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git commit -m "chore(package version): updated version" | exit 0
-          git tag ${{ github.event.inputs.packageVersion }}
-          git push & git push --tags
+          git tag ${{ env.PACKAGE_VERSION }} || echo "Tag exists"
+          git push origin ${{ env.PACKAGE_VERSION }} || true
 
       - name: Build
         run: |
@@ -44,3 +62,13 @@ jobs:
         # --allow-dirty is set here as a workaround because changes cannot be committed to a protected branch
         run: |
           cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }} --allow-dirty
+
+      - name: Notify slack releases channel
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_RELEASES_PROD_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            status: "${{ job.status }}"
+            environment: "production"
+            project: "LexActivator Rust"

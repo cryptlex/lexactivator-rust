@@ -91,6 +91,7 @@ extern "C" {
     pub fn GetActivationMode(initialMode: strtype!(), initialModeLength: c_uint, currentMode: strtype!(), currentModeLength: c_uint) -> c_int;
     pub fn GetActivationMeterAttributeUses(name: cstrtype!(), uses: *mut c_uint) -> c_int;
     pub fn GetServerSyncGracePeriodExpiryDate(gracePeriodExpiryDate: *mut c_uint) -> c_int;
+    pub fn GetLastActivationError(errorCode: *mut c_uint) -> c_int;
     pub fn GetTrialActivationMetadata(key: cstrtype!(), value: strtype!(), length: c_uint) -> c_int;
     pub fn GetTrialExpiryDate(trialExpiryDate: *mut c_uint) -> c_int;
     pub fn GetTrialId(trialId: strtype!(), length: c_uint) -> c_int;
