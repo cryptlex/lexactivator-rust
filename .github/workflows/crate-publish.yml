@@ -7,6 +7,10 @@ on:
         description: 'Package Version'
         required: true
         default: ''
+      libraryVersion:
+        description: 'Library Version'
+        required: true
+        default: ''
 
 jobs:
   update-version:
@@ -24,7 +28,8 @@ jobs:
 
       - name: Update Package Version
         run: |
-          sed -i '0,/version =/{s/version =.*/version = "${{ env.PACKAGE_VERSION }}"/;}' Cargo.toml
+          sed -i '0,/version =/{s/version =.*/version = "${{ github.event.inputs.packageVersion }}"/;}' Cargo.toml
+          sed -i 's/let version = \"v.*\";/let version = \"v${{ github.event.inputs.libraryVersion }}\";/' build.rs
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -37,6 +42,7 @@ jobs:
           base: main
           add-paths: |
             ./Cargo.toml
+            ./build.rs
 
       - name: Checkout release branch
         uses: actions/checkout@v4
