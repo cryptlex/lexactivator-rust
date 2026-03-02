@@ -24,7 +24,8 @@ jobs:
 
       - name: Update Package Version
         run: |
-          sed -i '0,/version =/{s/version =.*/version = "${{ env.PACKAGE_VERSION }}"/;}' Cargo.toml
+          sed -i '0,/version =/{s/version =.*/version = "${{ github.event.inputs.packageVersion }}"/;}' Cargo.toml
+          sed -i 's/let version = \"v.*\";/let version = \"v${{ github.event.inputs.libraryVersion }}\";/' build.rs
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
