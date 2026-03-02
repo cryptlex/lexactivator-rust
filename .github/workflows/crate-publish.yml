@@ -38,6 +38,7 @@ jobs:
           base: main
           add-paths: |
             ./Cargo.toml
+            ./build.rs
 
       - name: Checkout release branch
         uses: actions/checkout@v4
