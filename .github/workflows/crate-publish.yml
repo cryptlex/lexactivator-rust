@@ -8,7 +8,7 @@ on:
         required: true
         default: ''
       libraryVersion:
-        description: 'Package Version'
+        description: 'Library Version'
         required: true
         default: ''
 
