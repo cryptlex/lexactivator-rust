@@ -7,6 +7,10 @@ on:
         description: 'Package Version'
         required: true
         default: ''
+      libraryVersion:
+        description: 'Package Version'
+        required: true
+        default: ''
 
 jobs:
   update-version:
