@@ -8,39 +8,12 @@ bring it to our attention by emailing us at:
 
 The attached notices are provided for information only.
 
-License notice for:
-form_urlencoded 1.2.2 - Copyright (c) 2013-2016 The rust-url developers
-idna 0.5.0 - Copyright (c) 2013-2025 The rust-url developers
-url 2.5.0 - Copyright (c) 2013-2022 The rust-url developers
-percent-encoding 2.3.2 - Copyright (c) 2013-2025 The rust-url developers
-unicode-bidi 0.3.18 - Copyright (c) 2015 The Rust Project Developers
-unicode-normalization 0.1.25 - Copyright (c) 2015 The Rust Project Developers
-num-conv 0.1.0 - Copyright (c) 2023 Jacob Pratt
-powerfmt 0.2.0 - Copyright (c) 2023 Jacob Pratt et al.
-deranged 0.4.0 - Copyright (c) 2024 Jacob Pratt et al.
-time-core 0.1.4 - Copyright (c) Jacob Pratt et al.
-time 0.3.40 -Copyright (c) Jacob Pratt et al.
-tinyvec_macros 0.1.1 - Copyright (c) 2020 Soveu
-itoa 1.0.17
-proc-macro2 1.0.105
-quote 1.0.43
-serde 1.0.228
-serde_core 1.0.228
-serde_derive 1.0.228
-serde_json 1.0.149
-syn 2.0.114
-unicode-ident 1.0.22
-zmij 1.0.14
-tinyvec 1.10.0
-memchr 2.7.6 - Copyright (c) 2015 Andrew Gallant
+License notice for serde
 -------------------------------------------------
-The MIT License (MIT)
-
-Copyright <YEAR> <COPYRIGHT HOLDER>
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
-documentation files (the &quot;Software&quot;), to deal in the
+documentation files (the "Software"), to deal in the
 Software without restriction, including without
 limitation the rights to use, copy, modify, merge,
 publish, distribute, sublicense, and/or sell copies of
@@ -52,7 +25,7 @@ The above copyright notice and this permission notice
 shall be included in all copies or substantial portions
 of the Software.
 
-THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
 ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
 TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
 PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
@@ -62,49 +35,32 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-License notice for:
-unicode-ident 1.0.22
+License notice for serde_json
 -------------------------------------------------
 
-UNICODE LICENSE V3
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
 
-COPYRIGHT AND PERMISSION NOTICE
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
 
-Copyright © 1991-2023 Unicode, Inc.
-
-NOTICE TO USER: Carefully read the following legal agreement. BY
-DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
-SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
-TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
-DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of data files and any associated documentation (the &quot;Data Files&quot;) or
-software and any associated documentation (the &quot;Software&quot;) to deal in the
-Data Files or Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, and/or sell
-copies of the Data Files or Software, and to permit persons to whom the
-Data Files or Software are furnished to do so, provided that either (a)
-this copyright and permission notice appear with all copies of the Data
-Files or Software, or (b) this copyright and permission notice appear in
-associated Documentation.
-
-THE DATA FILES AND SOFTWARE ARE PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY
-KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
-THIRD PARTY RIGHTS.
-
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
-BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
-OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
-FILES OR SOFTWARE.
-
-Except as contained in this notice, the name of a copyright holder shall
-not be used in advertising or otherwise to promote the sale, use or other
-dealings in these Data Files or Software without prior written
-authorization of the copyright holder.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 
 
