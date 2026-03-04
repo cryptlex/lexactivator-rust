@@ -1445,6 +1445,22 @@ pub fn get_license_entitlement_set_display_name() -> Result<String, LexActivator
     }
 }
 
+/// Retrieves the license entitlement set display tier.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the entitlement set tier of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_entitlement_set_tier() -> Result<i64, LexActivatorError> {
+    let mut tier: c_longlong = 0;
+    let status = unsafe { GetLicenseEntitlementSetTier(&mut tier) };
+    if status == 0 {
+        Ok(tier)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the feature entitlements.
 ///
 /// # Returns
