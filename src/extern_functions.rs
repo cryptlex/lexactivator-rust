@@ -82,6 +82,7 @@ extern "C" {
     pub fn GetLicenseOrganizationAddressInternal(organizationAddressJson: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseEntitlementSetName(name: strtype!(), length: c_uint) -> c_int;
     pub fn GetLicenseEntitlementSetDisplayName(displayName: strtype!(), length: c_uint) -> c_int;
+    pub fn GetLicenseEntitlementSetTier(tier: *mut c_longlong) -> c_int;
     pub fn GetFeatureEntitlementsInternal(featureEntitlementsJson: strtype!(), length: c_uint) -> c_int;
     pub fn GetFeatureEntitlementInternal(featureName: cstrtype!(), featureEntitlementJson: strtype!(), length: c_uint) -> c_int;
     pub fn GetUserLicensesInternal(userLicenses: strtype!(), length: c_uint) -> c_int;
