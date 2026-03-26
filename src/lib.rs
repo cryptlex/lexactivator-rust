@@ -119,9 +119,12 @@ pub struct FeatureEntitlement {
     /// The display name of the feature.
     #[serde(rename = "featureDisplayName")]
     pub feature_display_name: String,
-    /// The value of the feature.
+    /// Effective value of the feature. Contains the overridden value if set at the license level; otherwise, the entitlement set value.
     #[serde(rename = "value")]
     pub value: String,
+    /// Default value of the feature defined in the entitlement set; empty for features not inherited from an entitlement set.
+    #[serde(rename = "baseValue")]
+    pub baseValue: String,
     /// Timestamp when the license feature entitlement will expire.
     #[serde(rename = "expiresAt")]
     pub expires_at : i64,
