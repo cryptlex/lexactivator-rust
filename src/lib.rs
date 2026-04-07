@@ -2108,7 +2108,7 @@ pub fn is_license_valid() -> Result<LexActivatorStatus, LexActivatorError> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned.
 pub fn sync_license_activation() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { SyncLicenseActivation() };
     match status {
@@ -2150,7 +2150,7 @@ pub fn activate_trial() -> Result<LexActivatorStatus, LexActivatorError> {
 ///
 /// # Returns
 ///
-/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned.
 
 pub fn sync_trial_activation() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { SyncTrialActivation() };
