@@ -2096,11 +2096,15 @@ pub fn is_license_valid() -> Result<LexActivatorStatus, LexActivatorError> {
     }
 }
 
-/// Syncs the activation data with the Cryptlex server.
+/// Synchronizes the activation data with the Cryptlex servers.
 ///
-/// This function should be called only if the license is already activated. This is a blocking call that performs a one-time synchronization to refresh the local license data.
+/// The license must already be activated when this function is called.
 ///
-/// For periodic validation, use IsLicenseGenuine() instead, which schedules background sync at a defined interval.
+/// This is a blocking call that performs a one-time synchronization to refresh the local license data.
+///
+/// In most cases, rely on IsLicenseGenuine(), which automatically handles periodic background synchronization based on the configured interval.
+///
+/// NOTE: Do not use this function in regular application flow. Use it only when an immediate synchronization is required.
 ///
 /// # Returns
 ///
@@ -2134,11 +2138,15 @@ pub fn activate_trial() -> Result<LexActivatorStatus, LexActivatorError> {
     }
 }
 
-/// Syncs the trial activation data with the Cryptlex server.
+/// Synchronizes the trial activation data with the Cryptlex servers.
 ///
-/// This function should be called only if the trial is already activated. This is a blocking call that performs a one-time synchronization to refresh the trial data locally.
+/// The trial must already be activated when this function is called.
 ///
-/// Unlike IsTrialGenuine(), which validates the trial activation locally only, this function forces an immediate server check.
+/// This is a blocking call that performs a one-time synchronization to refresh the local trial data.
+///
+/// Unlike IsTrialGenuine(), which validates the trial activation locally, this function performs an immediate synchronization with the servers.
+///
+/// NOTE: Use this function to immediately reflect server-side changes on the user's machine, such as trial extensions.
 ///
 /// # Returns
 ///
