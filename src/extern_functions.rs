@@ -111,7 +111,9 @@ extern "C" {
     pub fn GenerateOfflineDeactivationRequest(filePath: cstrtype!()) -> c_int;
     pub fn IsLicenseGenuine() -> c_int;
     pub fn IsLicenseValid() -> c_int;
+    pub fn SyncLicenseActivation() -> c_int;
     pub fn ActivateTrial() -> c_int;
+    pub fn SyncTrialActivation() -> c_int;
     pub fn ActivateTrialOffline(filePath: cstrtype!()) -> c_int;
     pub fn GenerateOfflineTrialActivationRequest(filePath: cstrtype!()) -> c_int;
     pub fn IsTrialGenuine() -> c_int;

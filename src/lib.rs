@@ -2096,6 +2096,30 @@ pub fn is_license_valid() -> Result<LexActivatorStatus, LexActivatorError> {
     }
 }
 
+/// Synchronizes the activation data with the Cryptlex servers.
+///
+/// The license must already be activated when this function is called.
+///
+/// This is a blocking call that performs a one-time synchronization to refresh the local license data.
+///
+/// In most cases, rely on IsLicenseGenuine(), which automatically handles periodic background synchronization based on the configured interval.
+///
+/// NOTE: Do not use this function in regular application flow. Use it only when an immediate synchronization is required.
+///
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the license activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned.
+pub fn sync_license_activation() -> Result<LexActivatorStatus, LexActivatorError> {
+    let status = unsafe { SyncLicenseActivation() };
+    match status {
+        0 => Ok(LexActivatorStatus::LA_OK),
+        20 => Ok(LexActivatorStatus::LA_EXPIRED),
+        21 => Ok(LexActivatorStatus::LA_SUSPENDED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
+    }
+}
+
 /// Starts the verified trial in your application by contacting the Cryptlex servers.
 /// 
 /// This function should be executed when your application starts first time on the user's computer, ideally on a button click.
@@ -2106,6 +2130,30 @@ pub fn is_license_valid() -> Result<LexActivatorStatus, LexActivatorError> {
 
 pub fn activate_trial() -> Result<LexActivatorStatus, LexActivatorError> {
     let status = unsafe { ActivateTrial() };
+    match status {
+        0 => Ok(LexActivatorStatus::LA_OK),
+        25 => Ok(LexActivatorStatus::LA_TRIAL_EXPIRED),
+        1 => Ok(LexActivatorStatus::LA_FAIL),
+        _ => Err(LexActivatorError::from(status)),
+    }
+}
+
+/// Synchronizes the trial activation data with the Cryptlex servers.
+///
+/// The trial must already be activated when this function is called.
+///
+/// This is a blocking call that performs a one-time synchronization to refresh the local trial data.
+///
+/// Unlike IsTrialGenuine(), which validates the trial activation locally, this function performs an immediate synchronization with the servers.
+///
+/// NOTE: Use this function to immediately reflect server-side changes on the user's machine, such as trial extensions.
+///
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if the trial activation has been synced successfully. If an error occurs, an `Err` containing the `LexActivatorError` is returned.
+
+pub fn sync_trial_activation() -> Result<LexActivatorStatus, LexActivatorError> {
+    let status = unsafe { SyncTrialActivation() };
     match status {
         0 => Ok(LexActivatorStatus::LA_OK),
         25 => Ok(LexActivatorStatus::LA_TRIAL_EXPIRED),
