@@ -80,6 +80,7 @@ fn download_and_setup_libs() -> Result<(), Box<dyn std::error::Error>> {
         
         // Extract the specific library file
         extract_library(&zip_path, &lib_path, &target_dir)?;
+        let _ = extract_library(&zip_path, "THIRD-PARTY-NOTICES.txt", &target_dir);
         
         // Clean up
         fs::remove_file(zip_path)?;

@@ -8,11 +8,12 @@ rust-version = "1.88"
 repository = "https://github.com/cryptlex/lexactivator-rust"
 # TODO
 # documentation = "https://docs.cryptlex.com/node-locked-licenses/using-lexactivator-with-rust"
-license = "MIT"
+license-file = "LICENSE.md"
 include = [
     "build.rs",
     "/src",
     "/examples",
+    "THIRD-PARTY-NOTICES.txt",
 ]
 
 [dependencies]
