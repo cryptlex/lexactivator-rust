@@ -97,6 +97,12 @@ pub struct UserLicense {
     pub allowed_deactivations: i64,
     /// The license key.
     pub key: String,
+    /// Total number of activations for the license.
+    #[serde(rename = "totalActivations")]
+    pub total_activations: u32,
+    /// Total number of deactivations for the license.
+    #[serde(rename = "totalDeactivations")]
+    pub total_deactivations: u32,
     /// The license type.
     #[serde(rename = "type")]
     pub license_type: String,
@@ -113,9 +119,15 @@ pub struct FeatureEntitlement {
     /// The display name of the feature.
     #[serde(rename = "featureDisplayName")]
     pub feature_display_name: String,
-    /// The value of the feature.
+    /// Effective value of the feature. Contains the overridden value if set at the license level; otherwise, the entitlement set value.
     #[serde(rename = "value")]
     pub value: String,
+    /// Default value of the feature defined in the entitlement set; empty for features not inherited from an entitlement set.
+    #[serde(rename = "baseValue")]
+    pub baseValue: String,
+    /// Timestamp when the license feature entitlement will expire.
+    #[serde(rename = "expiresAt")]
+    pub expires_at : i64,
 }
 
 /// Represents various permission flags.
@@ -1436,6 +1448,22 @@ pub fn get_license_entitlement_set_display_name() -> Result<String, LexActivator
     }
 }
 
+/// Retrieves the license entitlement set display tier.
+///
+/// # Returns
+///
+/// Returns `Ok(String)` with the entitlement set tier of the license if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_license_entitlement_set_tier() -> Result<i64, LexActivatorError> {
+    let mut tier: c_longlong = 0;
+    let status = unsafe { GetLicenseEntitlementSetTier(&mut tier) };
+    if status == 0 {
+        Ok(tier)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
 /// Retrieves the feature entitlements.
 ///
 /// # Returns
@@ -1683,6 +1711,23 @@ pub fn get_server_sync_grace_period_expiry_date() -> Result<u32, LexActivatorErr
     status = unsafe { GetServerSyncGracePeriodExpiryDate(&mut expiry_date) };
     if status == 0 {
         Ok(expiry_date)
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Retrieves the error code that caused the activation data to be cleared.
+///
+/// # Returns
+///
+/// Returns `Ok(u32)` with the error code that caused the activation data to be cleared if it is retrieved successfully, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn get_last_activation_error() -> Result<u32, LexActivatorError> {
+    let status: i32;
+    let mut error_code: c_uint = 0;
+    status = unsafe { GetLastActivationError(&mut error_code) };
+    if status == 0 {
+        Ok(error_code)
     } else {
         return Err(LexActivatorError::from(status));
     }
@@ -2301,6 +2346,30 @@ pub fn reset_activation_meter_attribute_uses(name: String) -> Result<(), LexActi
     }
     if status == 0 {
         Ok(())
+    } else {
+        return Err(LexActivatorError::from(status));
+    }
+}
+
+/// Migrates existing license data to system-wide storage.
+///
+/// Call this function after set_product_data().
+///
+/// If you intend to use a custom data directory after migration, set it first using set_data_directory().
+///
+/// # Arguments
+///
+/// * `old_permission_flag` - permission flag used previously
+///
+/// # Returns
+///
+/// Returns `Ok(LexActivatorStatus)` with the status code `LexActivatorStatus::LA_OK` if migration succeeds, If an error occurs, an `Err` containing the `LexActivatorError`is returned.
+
+pub fn migrate_to_system_wide_activation(old_permission_flag: PermissionFlags) -> Result<LexActivatorStatus, LexActivatorError> {
+    let c_old_permission_flag: c_uint = old_permission_flag as c_uint;
+    let status = unsafe { MigrateToSystemWideActivation(c_old_permission_flag) };
+    if status == 0 {
+        Ok(LexActivatorStatus::LA_OK)
     } else {
         return Err(LexActivatorError::from(status));
     }
